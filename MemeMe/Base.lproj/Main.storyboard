@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2V8-v2-NFs">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -15,10 +14,10 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cFb-x5-VkM">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cFb-x5-VkM">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="8gr-cR-NSN"/>
@@ -40,51 +39,64 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="FdU-mq-wIB"/>
                                 </items>
                             </toolbar>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ED-M9-rSa">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <items>
-                                    <navigationItem title="Create Meme" id="bMJ-BY-u6V">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="action" id="p3a-16-mde">
-                                            <connections>
-                                                <action selector="openActivityCenter:" destination="vXZ-lx-hvc" id="smj-Eu-8zd"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="HzC-RO-r1A">
-                                            <connections>
-                                                <action selector="cancelMemeEditor:" destination="vXZ-lx-hvc" id="hBc-LT-edZ"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wPc-DT-WTs">
-                                <rect key="frame" x="0.0" y="44" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="0ED-M9-rSa" secondAttribute="width" id="3zD-h6-mDa"/>
-                            <constraint firstItem="0ED-M9-rSa" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="5w1-au-AND"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="0ED-M9-rSa" secondAttribute="trailing" constant="-16" id="DOh-Lb-mLW"/>
+                            <constraint firstItem="wPc-DT-WTs" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="Eb4-8G-jrr"/>
                             <constraint firstAttribute="centerX" secondItem="wPc-DT-WTs" secondAttribute="centerX" id="NTU-WY-f8d"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cFb-x5-VkM" secondAttribute="trailing" constant="-16" id="Uq1-2F-6a6"/>
-                            <constraint firstItem="wPc-DT-WTs" firstAttribute="height" secondItem="kh9-bI-dsS" secondAttribute="height" constant="-88" id="XRa-b0-HMz"/>
+                            <constraint firstItem="wPc-DT-WTs" firstAttribute="height" secondItem="kh9-bI-dsS" secondAttribute="height" id="XRa-b0-HMz"/>
                             <constraint firstItem="cFb-x5-VkM" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="aS1-Q1-mqO"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="cFb-x5-VkM" secondAttribute="bottom" id="c8f-HC-G72"/>
                             <constraint firstItem="wPc-DT-WTs" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="mFU-rD-En0"/>
                             <constraint firstItem="cFb-x5-VkM" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="pEV-Wn-Awl"/>
-                            <constraint firstItem="wPc-DT-WTs" firstAttribute="top" secondItem="0ED-M9-rSa" secondAttribute="bottom" id="uLg-og-a0e"/>
-                            <constraint firstItem="0ED-M9-rSa" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="zPL-cY-UU4"/>
                         </constraints>
                     </view>
-                    <nil key="simulatedStatusBarMetrics"/>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" id="JuS-L3-hBF">
+                        <barButtonItem key="leftBarButtonItem" systemItem="action" id="p3a-16-mde">
+                            <connections>
+                                <action selector="openActivityCenter:" destination="vXZ-lx-hvc" id="smj-Eu-8zd"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="HzC-RO-r1A">
+                            <connections>
+                                <action selector="cancelMemeEditor:" destination="vXZ-lx-hvc" id="hBc-LT-edZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="cameraButton" destination="64w-lT-mQe" id="bzX-zf-Wka"/>
                         <outlet property="memeEditorImage" destination="wPc-DT-WTs" id="cFX-lV-6GQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="731" y="345"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="sCe-E6-40J">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="2V8-v2-NFs" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mTI-bR-Ujk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="aTd-Fr-3hE">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="paW-Hc-DnQ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dfc-sv-q7p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="199" y="345"/>
         </scene>
