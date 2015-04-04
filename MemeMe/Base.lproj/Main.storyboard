@@ -17,8 +17,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cFb-x5-VkM">
-                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                            <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wPc-DT-WTs">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cFb-x5-VkM">
+                                <rect key="frame" x="0.0" y="460" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="8gr-cR-NSN"/>
                                 </constraints>
@@ -39,17 +43,13 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="FdU-mq-wIB"/>
                                 </items>
                             </toolbar>
-                            <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wPc-DT-WTs">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wPc-DT-WTs" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="Eb4-8G-jrr"/>
                             <constraint firstAttribute="centerX" secondItem="wPc-DT-WTs" secondAttribute="centerX" id="NTU-WY-f8d"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cFb-x5-VkM" secondAttribute="trailing" constant="-16" id="Uq1-2F-6a6"/>
-                            <constraint firstItem="wPc-DT-WTs" firstAttribute="height" secondItem="kh9-bI-dsS" secondAttribute="height" id="XRa-b0-HMz"/>
+                            <constraint firstItem="wPc-DT-WTs" firstAttribute="height" secondItem="kh9-bI-dsS" secondAttribute="height" constant="-44" id="XRa-b0-HMz"/>
                             <constraint firstItem="cFb-x5-VkM" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="aS1-Q1-mqO"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="cFb-x5-VkM" secondAttribute="bottom" id="c8f-HC-G72"/>
                             <constraint firstItem="wPc-DT-WTs" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="mFU-rD-En0"/>
@@ -81,7 +81,7 @@
         <!--Navigation Controller-->
         <scene sceneID="sCe-E6-40J">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="2V8-v2-NFs" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2V8-v2-NFs" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mTI-bR-Ujk">
