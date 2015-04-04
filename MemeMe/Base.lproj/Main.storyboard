@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -15,11 +15,11 @@
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cFb-x5-VkM">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="8gr-cR-NSN"/>
                                 </constraints>
@@ -31,19 +31,9 @@
                                     <barButtonItem title="Album" id="Xpe-XT-edm"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="FdU-mq-wIB"/>
                                 </items>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="8gr-cR-NSN"/>
-                                    </mask>
-                                </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="8gr-cR-NSN"/>
-                                    </mask>
-                                </variation>
                             </toolbar>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ED-M9-rSa">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                                 <items>
                                     <navigationItem title="Create Meme" id="bMJ-BY-u6V">
                                         <barButtonItem key="leftBarButtonItem" systemItem="action" id="p3a-16-mde"/>
@@ -51,54 +41,35 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wPc-DT-WTs">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="0ED-M9-rSa" secondAttribute="width" id="3zD-h6-mDa"/>
                             <constraint firstItem="0ED-M9-rSa" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="5w1-au-AND"/>
+                            <constraint firstAttribute="centerX" secondItem="wPc-DT-WTs" secondAttribute="centerX" id="8I7-Fz-eAE"/>
                             <constraint firstAttribute="trailingMargin" secondItem="0ED-M9-rSa" secondAttribute="trailing" constant="-16" id="DOh-Lb-mLW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cFb-x5-VkM" secondAttribute="trailing" constant="-16" id="Uq1-2F-6a6"/>
                             <constraint firstItem="cFb-x5-VkM" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="aS1-Q1-mqO"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="cFb-x5-VkM" secondAttribute="bottom" id="c8f-HC-G72"/>
+                            <constraint firstAttribute="centerY" secondItem="wPc-DT-WTs" secondAttribute="centerY" id="cC4-b7-Tlt"/>
                             <constraint firstItem="cFb-x5-VkM" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="pEV-Wn-Awl"/>
+                            <constraint firstItem="wPc-DT-WTs" firstAttribute="height" secondItem="kh9-bI-dsS" secondAttribute="height" id="stH-LB-P13"/>
+                            <constraint firstItem="wPc-DT-WTs" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="um9-z5-iJT"/>
                             <constraint firstItem="0ED-M9-rSa" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="zPL-cY-UU4"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="cFb-x5-VkM"/>
-                                <exclude reference="0ED-M9-rSa"/>
-                            </mask>
-                            <mask key="constraints">
-                                <exclude reference="3zD-h6-mDa"/>
-                                <exclude reference="5w1-au-AND"/>
-                                <exclude reference="DOh-Lb-mLW"/>
-                                <exclude reference="zPL-cY-UU4"/>
-                                <exclude reference="Uq1-2F-6a6"/>
-                                <exclude reference="aS1-Q1-mqO"/>
-                                <exclude reference="pEV-Wn-Awl"/>
-                                <exclude reference="c8f-HC-G72"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=compact">
-                            <mask key="subviews">
-                                <include reference="cFb-x5-VkM"/>
-                                <include reference="0ED-M9-rSa"/>
-                            </mask>
-                            <mask key="constraints">
-                                <include reference="3zD-h6-mDa"/>
-                                <include reference="5w1-au-AND"/>
-                                <include reference="DOh-Lb-mLW"/>
-                                <include reference="zPL-cY-UU4"/>
-                                <include reference="Uq1-2F-6a6"/>
-                                <include reference="aS1-Q1-mqO"/>
-                                <include reference="pEV-Wn-Awl"/>
-                                <include reference="c8f-HC-G72"/>
-                            </mask>
-                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="202" y="322"/>
         </scene>
     </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>
