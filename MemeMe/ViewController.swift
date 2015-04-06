@@ -13,9 +13,11 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
    
     @IBOutlet weak var memeEditorImage: UIImageView!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
+    @IBOutlet weak var activityButton: UIBarButtonItem!
     
     @IBOutlet weak var topText: UITextField!
     @IBOutlet weak var bottomText: UITextField!
+
     
     var memedImage: UIImage!
     
@@ -45,7 +47,12 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
+        
+        //Disable Camera button if no camera is available
+        
         self.cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
+        
+        self.activityButton.enabled = self.memeEditorImage?.image != nil
         
         self.subscribeToKeyboardNotification()
     
@@ -54,7 +61,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(false)
-        
         self.unsubscribeToKeyboardNotifiaction()
         
     }
@@ -78,8 +84,8 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         if let currentImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             
-            self.memeEditorImage.image = currentImage
-            self.memeEditorImage.contentMode = UIViewContentMode.ScaleAspectFit
+            self.memeEditorImage!.image = currentImage
+            self.memeEditorImage!.contentMode = UIViewContentMode.ScaleAspectFit
             
             self.dismissViewControllerAnimated(true, completion:nil)
             
@@ -106,10 +112,10 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     
     @IBAction func openActivityCenter(sender: UIBarButtonItem) {
         
-        var memeContext = memedImageContext(currentView:self.memeEditorImage)
+        var memeContext = memedImageContext(currentView:self.memeEditorImage!)
         self.memedImage = memeContext.generateMemedImage()
         
-        let memeActivityObject = [memedImage]
+        let memeActivityObject = [memedImage!]
         
         
         //Initiate UIActivityView Controller
@@ -121,7 +127,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     
     func save(){
         
-        var newMeme = Meme(text: self.topText.text, bottomText: self.bottomText.text, originalImage: self.memeEditorImage.image!, memedImage: self.memedImage)
+        var newMeme = Meme(text: self.topText.text, bottomText: self.bottomText.text, originalImage: self.memeEditorImage!.image!, memedImage: self.memedImage!)
         
         // This is only an interim solution! Will be replaced by an actual persistent store later
         var object = UIApplication.sharedApplication().delegate as AppDelegate
