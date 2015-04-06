@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2V8-v2-NFs">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -17,10 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wPc-DT-WTs">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
-                                <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </imageView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cFb-x5-VkM">
                                 <rect key="frame" x="0.0" y="460" width="320" height="44"/>
                                 <constraints>
@@ -43,17 +38,47 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="FdU-mq-wIB"/>
                                 </items>
                             </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nym-tE-yZ5" customClass="UIImageView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TOP" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UKL-Fm-6qG">
+                                        <rect key="frame" x="0.0" y="10" width="320" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="DyP-aV-sTA"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no"/>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="BOTTOM" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1fS-rW-GKr">
+                                        <rect key="frame" x="0.0" y="410" width="320" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="iuA-WU-x2k"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="1fS-rW-GKr" secondAttribute="centerX" id="1gf-m1-MVR"/>
+                                    <constraint firstAttribute="centerX" secondItem="UKL-Fm-6qG" secondAttribute="centerX" id="FN7-MS-9Sl"/>
+                                    <constraint firstItem="UKL-Fm-6qG" firstAttribute="width" secondItem="nym-tE-yZ5" secondAttribute="width" id="TKl-Jo-VYI"/>
+                                    <constraint firstItem="UKL-Fm-6qG" firstAttribute="top" relation="greaterThanOrEqual" secondItem="nym-tE-yZ5" secondAttribute="top" constant="10" id="XZg-yL-Eyw"/>
+                                    <constraint firstItem="UKL-Fm-6qG" firstAttribute="top" secondItem="nym-tE-yZ5" secondAttribute="top" constant="10" id="YkO-wy-Y1b"/>
+                                    <constraint firstItem="1fS-rW-GKr" firstAttribute="width" secondItem="nym-tE-yZ5" secondAttribute="width" id="gy2-wg-H2B"/>
+                                    <constraint firstAttribute="bottom" secondItem="1fS-rW-GKr" secondAttribute="bottom" constant="10" id="lwu-XD-mm3"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wPc-DT-WTs" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="Eb4-8G-jrr"/>
-                            <constraint firstAttribute="centerX" secondItem="wPc-DT-WTs" secondAttribute="centerX" id="NTU-WY-f8d"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="cFb-x5-VkM" secondAttribute="trailing" constant="-16" id="Uq1-2F-6a6"/>
-                            <constraint firstItem="wPc-DT-WTs" firstAttribute="height" secondItem="kh9-bI-dsS" secondAttribute="height" constant="-44" id="XRa-b0-HMz"/>
-                            <constraint firstItem="cFb-x5-VkM" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="aS1-Q1-mqO"/>
+                            <constraint firstItem="nym-tE-yZ5" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="3C9-cj-uAa"/>
+                            <constraint firstItem="nym-tE-yZ5" firstAttribute="height" secondItem="kh9-bI-dsS" secondAttribute="height" constant="-44" id="5A2-yT-sbu"/>
+                            <constraint firstItem="nym-tE-yZ5" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="8pn-G3-Wbo"/>
+                            <constraint firstItem="nym-tE-yZ5" firstAttribute="width" secondItem="cFb-x5-VkM" secondAttribute="width" id="LTi-sM-EPQ"/>
+                            <constraint firstItem="nym-tE-yZ5" firstAttribute="centerX" secondItem="cFb-x5-VkM" secondAttribute="centerX" id="QWx-NH-gkO"/>
+                            <constraint firstAttribute="centerX" secondItem="nym-tE-yZ5" secondAttribute="centerX" id="UYg-mN-CEg"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="cFb-x5-VkM" secondAttribute="bottom" id="c8f-HC-G72"/>
-                            <constraint firstItem="wPc-DT-WTs" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="mFU-rD-En0"/>
-                            <constraint firstItem="cFb-x5-VkM" firstAttribute="width" secondItem="kh9-bI-dsS" secondAttribute="width" id="pEV-Wn-Awl"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -70,8 +95,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="bottomText" destination="1fS-rW-GKr" id="PA0-y4-THU"/>
                         <outlet property="cameraButton" destination="64w-lT-mQe" id="bzX-zf-Wka"/>
-                        <outlet property="memeEditorImage" destination="wPc-DT-WTs" id="cFX-lV-6GQ"/>
+                        <outlet property="memeEditorImage" destination="nym-tE-yZ5" id="4Sq-cD-5GB"/>
+                        <outlet property="topText" destination="UKL-Fm-6qG" id="ppt-vM-L6m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
