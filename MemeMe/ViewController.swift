@@ -31,14 +31,14 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
             NSStrokeWidthAttributeName:Float(-4.0)]
         
         
-        topText.delegate = self
-        topText.defaultTextAttributes = memeTextAttributes
-        topText.textAlignment = NSTextAlignment.Center
+        self.topText.delegate = self
+        self.topText.defaultTextAttributes = memeTextAttributes
+        self.topText.textAlignment = NSTextAlignment.Center
         
         
-        bottomText.delegate = self
-        bottomText.defaultTextAttributes = memeTextAttributes
-        bottomText.textAlignment = NSTextAlignment.Center
+        self.bottomText.delegate = self
+        self.bottomText.defaultTextAttributes = memeTextAttributes
+        self.bottomText.textAlignment = NSTextAlignment.Center
         
         
         // The status bar should be hidden while in meme edit view to use the maximum available screen size for the image.
@@ -55,12 +55,15 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         self.activityButton.enabled = self.memeEditorImage?.image != nil
         
         self.subscribeToKeyboardNotification()
+        self.bottomText.text = "BOTTOM"
+        self.topText.text = "TOP"
+        
     
     }
     
     
     override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(false)
+        super.viewWillDisappear(true)
         self.unsubscribeToKeyboardNotifiaction()
         
     }
@@ -120,8 +123,16 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         //Initiate UIActivityView Controller
         
-        let activitView = UIActivityViewController(activityItems: memeActivityObject, applicationActivities: nil)
-        self.presentViewController(activitView, animated: true, completion: {self.save()})
+        let activityView = UIActivityViewController(activityItems: memeActivityObject, applicationActivities: nil)
+        
+        
+        activityView.completionHandler = {activityType, completed in self.save()
+            
+            self.cancel()
+            self.performSegueWithIdentifier("showSentMemes", sender: self)
+        }
+        self.presentViewController(activityView, animated: true, completion: nil)
+            
     }
     
     
@@ -133,10 +144,22 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         var object = UIApplication.sharedApplication().delegate as AppDelegate
         object.memes.append(newMeme)
         
+        
     }
+    
+    
+    func cancel(){
+        
+        self.memeEditorImage!.image = nil
+        self.bottomText.text = "BOTTOM"
+        self.topText.text = "TOP"
+        self.activityButton.enabled = self.memeEditorImage?.image != nil
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
 
     @IBAction func cancelMemeEditor(sender: UIBarButtonItem) {
-        self.dismissViewControllerAnimated(true, completion:nil)
+        self.cancel()
     }
     
     
