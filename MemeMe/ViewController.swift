@@ -25,7 +25,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let memeTextAttributes: NSDictionary = [NSStrokeColorAttributeName:UIColor.blackColor(),
+        let memeTextAttributes: Dictionary = [NSStrokeColorAttributeName:UIColor.blackColor(),
             NSForegroundColorAttributeName:UIColor.whiteColor(),
             NSFontAttributeName:UIFont(name:"HelveticaNeue-CondensedBlack", size:35)!,
             NSStrokeWidthAttributeName:Float(-4.0)]

@@ -47,10 +47,12 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         var content: Meme = storedMemes[indexPath.row] as Meme
         
-        
-        cell.textLabel!.text = content.topText + " " + content.bottomText
+        var customTextLabel:UILabel = cell.contentView.viewWithTag(101) as UILabel
+        customTextLabel.text = content.topText + " " + content.bottomText
+
+        var customImageView:UIImageView = cell.contentView.viewWithTag(100) as UIImageView
         var thumbNail: UIImage = content.memedImage
-        cell.imageView!.image = thumbNail
+        customImageView.image = thumbNail
 
         return cell
     }

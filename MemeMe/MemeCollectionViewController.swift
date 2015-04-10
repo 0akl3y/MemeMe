@@ -44,10 +44,10 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         var content: Meme = storedMemes[indexPath.row] as Meme
         var thumbNail: UIImage = content.memedImage
         
-        let imageContent: UIImageView = UIImageView(frame: item.frame)
-        imageContent.image = thumbNail
-        
-        item.addSubview(imageContent)
+
+        var imageView: UIImageView = item.contentView.viewWithTag(100) as UIImageView
+       
+        imageView.image = thumbNail
         
         return item
     }
