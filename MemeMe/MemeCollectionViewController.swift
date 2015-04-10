@@ -1,66 +1,57 @@
 //
-//  MemeViewController.swift
+//  MemeCollectionViewController.swift
 //  MemeMe
 //
-//  Created by Johannes Eichler on 07.04.15.
+//  Created by Johannes Eichler on 10.04.15.
 //  Copyright (c) 2015 Eichler. All rights reserved.
 //
 
 import UIKit
 
-class MemeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MemeCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {    
     
     var storedMemes: [Meme] {
         
         get{
             var object = UIApplication.sharedApplication().delegate as AppDelegate
             return object.memes
-        }        
+        }
         
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-    
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var numberOfMemes = self.storedMemes.count
         
         return numberOfMemes
     }
     
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("customCell", forIndexPath: indexPath) as UITableViewCell
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let item = collectionView.dequeueReusableCellWithReuseIdentifier("collectionCell", forIndexPath: indexPath) as UICollectionViewCell
         
         var content: Meme = storedMemes[indexPath.row] as Meme
-        
-        
-        cell.textLabel!.text = content.topText + " " + content.bottomText
         var thumbNail: UIImage = content.memedImage
-        cell.imageView!.image = thumbNail
-
-        return cell
+        
+        let imageContent: UIImageView = UIImageView(frame: item.frame)
+        imageContent.image = thumbNail
+        
+        item.addSubview(imageContent)
+        
+        return item
     }
-
     
-    
-    @IBAction func addMemeButton(sender: AnyObject) {
-
-        self.dismissViewControllerAnimated(true, completion:nil)
-    }
 
     /*
     // MARK: - Navigation

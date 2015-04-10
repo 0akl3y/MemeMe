@@ -131,6 +131,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
             self.cancel()
             self.performSegueWithIdentifier("showSentMemes", sender: self)
         }
+        
         self.presentViewController(activityView, animated: true, completion: nil)
             
     }
