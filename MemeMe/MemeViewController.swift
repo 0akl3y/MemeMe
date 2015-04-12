@@ -19,6 +19,8 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
+    var selectedImageIdx: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -56,12 +58,49 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         return cell
     }
+    
+    
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.selectedImageIdx = indexPath.row
+        performSegueWithIdentifier("detailFromTable", sender: self)
+    }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "detailFromTable"){
+            
+            var detailView: DetailViewController = segue.destinationViewController as DetailViewController
+            detailView.currentImageIdx = self.selectedImageIdx!
+            
+            
+        }
+    }
 
     
     
     @IBAction func addMemeButton(sender: AnyObject) {
-
-        self.dismissViewControllerAnimated(true, completion:nil)
+        
+        if(self.presentingViewController != nil){
+        
+            self.dismissViewControllerAnimated(true, completion:nil)
+            
+        }
+        
+        else {
+            
+            var startVC = self.storyboard!.instantiateInitialViewController() as MemeViewController
+            
+            var object = UIApplication.sharedApplication().delegate as AppDelegate
+            object.window!.rootViewController = startVC
+            
+            
+        
+        
+        }
+        
+        
+        
     }
 
     /*

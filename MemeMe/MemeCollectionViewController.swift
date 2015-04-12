@@ -18,6 +18,8 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         }
         
     }
+    
+    var selectedImageIdx: Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +54,33 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         return item
     }
     
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
+        self.selectedImageIdx = indexPath.row
+        performSegueWithIdentifier("detailFromCollection", sender: self)
+        
+        
+    }
+    
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "detailFromCollection"){
+            
+            var detailView: DetailViewController = segue.destinationViewController as DetailViewController
+            
+            detailView.currentImageIdx = self.selectedImageIdx!
+            
+            
+        }
+    }
+    
+    
+    @IBAction func addNewMeme(sender: UIBarButtonItem) {
+
+        self.dismissViewControllerAnimated(true, completion:nil)
+        
+    }
 
     /*
     // MARK: - Navigation

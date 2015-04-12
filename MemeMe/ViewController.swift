@@ -10,6 +10,14 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    var storedMemes: [Meme] {
+        
+        get{
+            var object = UIApplication.sharedApplication().delegate as AppDelegate
+            return object.memes
+        }
+        
+    }
    
     @IBOutlet weak var memeEditorImage: UIImageView!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
@@ -22,8 +30,13 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     var memedImage: UIImage!
     
     
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         let memeTextAttributes: Dictionary = [NSStrokeColorAttributeName:UIColor.blackColor(),
             NSForegroundColorAttributeName:UIColor.whiteColor(),
@@ -38,10 +51,8 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         self.bottomText.delegate = self
         self.bottomText.defaultTextAttributes = memeTextAttributes
-        self.bottomText.textAlignment = NSTextAlignment.Center
-        
-        
-        // The status bar should be hidden while in meme edit view to use the maximum available screen size for the image.
+        self.bottomText.textAlignment = NSTextAlignment.Center        
+
 
     }
     
@@ -52,11 +63,15 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         self.cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
         
-        self.activityButton.enabled = self.memeEditorImage?.image != nil
         
         self.subscribeToKeyboardNotification()
+        
+        self.activityButton.enabled = self.memeEditorImage?.image != nil
         self.bottomText.text = "BOTTOM"
         self.topText.text = "TOP"
+        
+        
+        
         
     
     }
@@ -136,6 +151,10 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
             
     }
     
+    @IBAction func cancelMemeEditor(sender: AnyObject) {
+        
+        self.cancel()
+    }
     
     func save(){
         
@@ -152,15 +171,10 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     func cancel(){
         
         self.memeEditorImage!.image = nil
+        self.activityButton.enabled = false
         self.bottomText.text = "BOTTOM"
         self.topText.text = "TOP"
-        self.activityButton.enabled = self.memeEditorImage?.image != nil
         self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-
-    @IBAction func cancelMemeEditor(sender: UIBarButtonItem) {
-        self.cancel()
     }
     
     
@@ -176,7 +190,11 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     func keyboardWillShow(notification: NSNotification) {
         
 
-        self.view.frame.origin.y -= CGFloat(self.getKeyboardHeight(notification))
+        //frame should not move up, when the top text is edited
+        
+        if(bottomText.isFirstResponder()){
+            self.view.frame.origin.y -= CGFloat(self.getKeyboardHeight(notification))
+        }
         
         
     }
@@ -184,15 +202,15 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     
     func keyboardWillHide(notification: NSNotification) {
         
-        self.view.frame.origin.y += CGFloat(self.getKeyboardHeight(notification))
+        if(bottomText.isFirstResponder()){
+            self.view.frame.origin.y += CGFloat(self.getKeyboardHeight(notification))
+        }
         
     }
     
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat{
         
-
-            
         let userInfo:Dictionary = notification.userInfo as Dictionary!
         let keyboardSize = userInfo[UIKeyboardFrameEndUserInfoKey] as NSValue
         
@@ -201,12 +219,15 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     }
     
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        return true
+    }
+    
+    
     func textFieldDidEndEditing(textField: UITextField) {
         textField.resignFirstResponder()
 
     }
-    
-
     
     func unsubscribeToKeyboardNotifiaction() {
         

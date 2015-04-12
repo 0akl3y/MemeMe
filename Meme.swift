@@ -1,6 +1,6 @@
 //
 //  Meme.swift
-//  imagePickerTest
+//  MemeMe
 //
 //  Created by Johannes Eichler on 01.04.15.
 //  Copyright (c) 2015 Eichler. All rights reserved.
