@@ -279,7 +279,13 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Detail View" id="f90-CF-6MX"/>
+                    <navigationItem key="navigationItem" title="Detail View" id="f90-CF-6MX">
+                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="woQ-n4-uAi">
+                            <connections>
+                                <action selector="removeMeme:" destination="agL-3M-CL4" id="0Sj-oD-q4A"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="detailImage" destination="rk0-Nj-sRM" id="JfY-pH-v14"/>

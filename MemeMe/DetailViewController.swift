@@ -22,17 +22,22 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var detailImage: UIImageView!
     
+    override func viewDidAppear(animated: Bool) {
+        self.detailImage.image = self.storedMemes[currentImageIdx].memedImage as UIImage
+        self.detailImage.contentMode = UIViewContentMode.ScaleAspectFit
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         // Do any additional setup after loading the view.
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.detailImage.image = storedMemes[currentImageIdx].memedImage as UIImage
-        self.detailImage.contentMode = UIViewContentMode.ScaleAspectFit
+
         
     }
 
