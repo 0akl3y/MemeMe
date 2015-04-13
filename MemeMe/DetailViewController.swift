@@ -60,7 +60,17 @@ class DetailViewController: UIViewController {
         
         var mutableObject = UIApplication.sharedApplication().delegate as AppDelegate
         mutableObject.memes.removeAtIndex(currentImageIdx)
-        self.navigationController!.popViewControllerAnimated(true)
+        
+        if(self.storedMemes.count > 0) {
+            
+            self.navigationController!.popViewControllerAnimated(true)
+        }
+        
+        else {
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
+        
+        }
         
     }
     
