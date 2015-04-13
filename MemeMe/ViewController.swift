@@ -10,11 +10,11 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    var storedMemes: [Meme] {
+    var sharedModel: AppDelegate {
         
         get{
             var object = UIApplication.sharedApplication().delegate as AppDelegate
-            return object.memes
+            return object
         }
         
     }
@@ -28,11 +28,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
 
     
     var memedImage: UIImage!
-    
-    
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,16 +58,30 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         self.cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
         
-        
         self.subscribeToKeyboardNotification()
         
         self.activityButton.enabled = self.memeEditorImage?.image != nil
-        self.bottomText.text = "BOTTOM"
-        self.topText.text = "TOP"
         
         
         
+        //Check if there is a meme to be edited and display this meme
         
+        
+        if var memeToEditIdx = self.sharedModel.currentlySelectedIdx? {
+            
+            let memeToEdit = self.sharedModel.memes[memeToEditIdx]
+            
+            self.memedImage = memeToEdit.memedImage
+            self.topText.text = memeToEdit.topText
+            self.bottomText.text = memeToEdit.bottomText
+        
+        }
+        
+        else {
+        
+            self.topText.text = "TOP"
+            self.bottomText.text = "BOTTOM"
+        }
     
     }
     
@@ -160,9 +169,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         var newMeme = Meme(text: self.topText.text, bottomText: self.bottomText.text, originalImage: self.memeEditorImage!.image!, memedImage: self.memedImage!)
         
-        // This is only an interim solution! Will be replaced by an actual persistent store later
-        var object = UIApplication.sharedApplication().delegate as AppDelegate
-        object.memes.append(newMeme)
+        self.sharedModel.memes.append(newMeme)
         
         
     }
@@ -195,7 +202,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         if(bottomText.isFirstResponder()){
             self.view.frame.origin.y -= CGFloat(self.getKeyboardHeight(notification))
         }
-        
         
     }
     
@@ -231,12 +237,10 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     
     func unsubscribeToKeyboardNotifiaction() {
         
-        
         NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object:nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillHideNotification, object:nil)
         
     }
-
     
 }
 

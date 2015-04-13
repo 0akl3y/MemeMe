@@ -11,6 +11,10 @@ import UIKit
 class DetailViewController: UIViewController {
     
     var currentImageIdx:Int!
+    var editButton: UIBarButtonItem?
+    var deleteButton: UIBarButtonItem?
+    
+    
     var storedMemes: [Meme] {
         
         get{
@@ -25,6 +29,17 @@ class DetailViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         self.detailImage.image = self.storedMemes[currentImageIdx].memedImage as UIImage
         self.detailImage.contentMode = UIViewContentMode.ScaleAspectFit
+
+    
+        self.editButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: "editMeme:")
+        
+        self.deleteButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Trash, target: self, action: "removeMeme:")
+        
+        var butttons = [self.editButton!, self.deleteButton!]
+                        
+        self.navigationItem.rightBarButtonItems = butttons as NSArray
+        
+        
     }
     
 
@@ -35,22 +50,21 @@ class DetailViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
     
-    @IBAction func editMeme(sender: UIBarButtonItem) {
-
+    @IBAction func editMeme(sender: UIBarButtonItem) {        
         
+        var mutableModel = UIApplication.sharedApplication().delegate as AppDelegate
+        
+        // store the idx of the image currently displayed in the shared model for later editing
+        mutableModel.currentlySelectedIdx = self.currentImageIdx
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
         
     }
     
@@ -73,15 +87,5 @@ class DetailViewController: UIViewController {
         }
         
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

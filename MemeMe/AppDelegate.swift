@@ -13,6 +13,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var memes = [Meme]()
+    
+    //Pass the index of the image currently selected via the shared model
+    var currentlySelectedIdx: Int?
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -37,18 +40,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
+        // Fulfill requirement to display the Sent Memes View, if there are views. Remove this after review
 
         if (self.memes.count > 0){
-        
             
         var storyboard = UIStoryboard(name: "Main", bundle: nil)
         var initialVC: UIViewController = storyboard.instantiateViewControllerWithIdentifier("MemeOverview") as UIViewController
             
             window!.rootViewController = initialVC
         
-        }
-
-        
+        }        
         
     }
 
