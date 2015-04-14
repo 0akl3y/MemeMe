@@ -18,7 +18,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         }
         
     }
-
    
     @IBOutlet weak var memeEditorImage: UIImageView!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
@@ -52,11 +51,10 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
 
     }
     
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         
-        //Check if there is a meme to be edited and display this mem
+        //Check if there is a meme to be edited and display this meme
         
         if var memeToEditIdx = self.sharedModel.currentlySelectedIdx? {
             let memeToEdit = self.sharedModel.memes[memeToEditIdx]
@@ -68,11 +66,13 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
             
         }
             
-        else {
+            // Otherwise clear the view
+            
+/*        else {
             
             self.topText.text = "TOP"
             self.bottomText.text = "BOTTOM"
-        }
+        }*/
         
         
     }
@@ -156,10 +156,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         
         activityView.completionHandler = {activityType, completed in self.save()
-            
-            self.cancel()
-            self.performSegueWithIdentifier("showSentMemes", sender: self)
-        }
+        self.clearView()}
         
         self.presentViewController(activityView, animated: true, completion: nil)
             
@@ -190,27 +187,49 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         }
         
+        self.performSegueWithIdentifier("showSentMemes", sender: self)
+        
+    }
+    
+    func cancel(){
+        
+
+        
+        self.clearView()
+        
+        
+        // Reset currently selected index to clear view
+        
+
+        if (sharedModel.currentlySelectedIdx != nil){
+            
+            self.sharedModel.currentlySelectedIdx = nil
+        }
+
+        
+        if (sharedModel.memes.count > 0){
+            
+            self.performSegueWithIdentifier("showSentMemes", sender: self)
+        }
+        
+        else{
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
+        
+        }
+        
     }
     
     
-    func cancel(){
+    func clearView() {
         
         self.memeEditorImage!.image = nil
         self.activityButton.enabled = false
         self.bottomText.text = "BOTTOM"
         self.topText.text = "TOP"
-        
-        
-        // Reset currently selected index to clear view
-        
-        if (sharedModel.currentlySelectedIdx != nil){
-            
-            self.sharedModel.currentlySelectedIdx = nil
-        }
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
     
+    
+    }
     
     // Keyboard Handling
     
