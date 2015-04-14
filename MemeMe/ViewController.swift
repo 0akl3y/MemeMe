@@ -18,6 +18,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         }
         
     }
+
    
     @IBOutlet weak var memeEditorImage: UIImageView!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
@@ -51,6 +52,31 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
 
     }
     
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        
+        //Check if there is a meme to be edited and display this mem
+        
+        if var memeToEditIdx = self.sharedModel.currentlySelectedIdx? {
+            let memeToEdit = self.sharedModel.memes[memeToEditIdx]
+            
+            self.memedImage = memeToEdit.originalImage
+            self.topText.text = memeToEdit.topText
+            self.bottomText.text = memeToEdit.bottomText
+            self.memeEditorImage!.image = memedImage
+            
+        }
+            
+        else {
+            
+            self.topText.text = "TOP"
+            self.bottomText.text = "BOTTOM"
+        }
+        
+        
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
         
@@ -62,27 +88,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         self.activityButton.enabled = self.memeEditorImage?.image != nil
         
-        
-        
-        //Check if there is a meme to be edited and display this meme
-        
-        
-        if var memeToEditIdx = self.sharedModel.currentlySelectedIdx? {
-            
-            let memeToEdit = self.sharedModel.memes[memeToEditIdx]
-            
-            self.memedImage = memeToEdit.memedImage
-            self.topText.text = memeToEdit.topText
-            self.bottomText.text = memeToEdit.bottomText
-        
-        }
-        
-        else {
-        
-            self.topText.text = "TOP"
-            self.bottomText.text = "BOTTOM"
-        }
-    
     }
     
     
@@ -169,8 +174,21 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         var newMeme = Meme(text: self.topText.text, bottomText: self.bottomText.text, originalImage: self.memeEditorImage!.image!, memedImage: self.memedImage!)
         
-        self.sharedModel.memes.append(newMeme)
+        // Check if an existing meme is edited
         
+        if (sharedModel.currentlySelectedIdx == nil){
+            
+            self.sharedModel.memes.append(newMeme)
+        }
+            
+        // Save the existing meme
+        
+        else {
+            var currentIdx = self.sharedModel.currentlySelectedIdx!
+            
+            self.sharedModel.memes[currentIdx] = newMeme
+        
+        }
         
     }
     
@@ -181,6 +199,15 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         self.activityButton.enabled = false
         self.bottomText.text = "BOTTOM"
         self.topText.text = "TOP"
+        
+        
+        // Reset currently selected index to clear view
+        
+        if (sharedModel.currentlySelectedIdx != nil){
+            
+            self.sharedModel.currentlySelectedIdx = nil
+        }
+        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

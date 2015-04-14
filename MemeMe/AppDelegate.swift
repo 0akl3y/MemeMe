@@ -14,9 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var memes = [Meme]()
     
-    //Pass the index of the image currently selected via the shared model
     var currentlySelectedIdx: Int?
-
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.

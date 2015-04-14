@@ -15,38 +15,39 @@ class DetailViewController: UIViewController {
     var deleteButton: UIBarButtonItem?
     
     
-    var storedMemes: [Meme] {
+    var sharedObject: AppDelegate {
         
         get{
             var object = UIApplication.sharedApplication().delegate as AppDelegate
-            return object.memes as [Meme]
+            
+            return object
         }
         
     }
     
     @IBOutlet weak var detailImage: UIImageView!
     
-    override func viewDidAppear(animated: Bool) {
-        self.detailImage.image = self.storedMemes[currentImageIdx].memedImage as UIImage
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(false)
+        
+        self.detailImage.image = self.sharedObject.memes[currentImageIdx].memedImage as UIImage
         self.detailImage.contentMode = UIViewContentMode.ScaleAspectFit
-
-    
-        self.editButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: "editMeme:")
-        
-        self.deleteButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Trash, target: self, action: "removeMeme:")
-        
-        var butttons = [self.editButton!, self.deleteButton!]
-                        
-        self.navigationItem.rightBarButtonItems = butttons as NSArray
-        
         
     }
+    
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        self.editButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: "editMeme:")
+        
+        self.deleteButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Trash, target: self, action: "removeMeme:")
+        
+        var butttons = [self.deleteButton!, self.editButton!]
+        
+        self.navigationItem.rightBarButtonItems = butttons as NSArray
+        
         // Do any additional setup after loading the view.
     }
     
@@ -57,13 +58,11 @@ class DetailViewController: UIViewController {
     }
     
     
-    @IBAction func editMeme(sender: UIBarButtonItem) {        
+    @IBAction func editMeme(sender: UIBarButtonItem) {
         
-        var mutableModel = UIApplication.sharedApplication().delegate as AppDelegate
-        
-        // store the idx of the image currently displayed in the shared model for later editing
-        mutableModel.currentlySelectedIdx = self.currentImageIdx
-        
+        // store the idx of the image currently displayed in the shared model for later editing        
+
+        self.sharedObject.currentlySelectedIdx = self.currentImageIdx
         self.dismissViewControllerAnimated(true, completion: nil)
         
     }
@@ -72,10 +71,10 @@ class DetailViewController: UIViewController {
     
     @IBAction func removeMeme(sender: UIBarButtonItem) {
         
-        var mutableObject = UIApplication.sharedApplication().delegate as AppDelegate
-        mutableObject.memes.removeAtIndex(currentImageIdx)
+
+        self.sharedObject.memes.removeAtIndex(self.currentImageIdx)
         
-        if(self.storedMemes.count > 0) {
+        if(self.sharedObject.memes.count > 0) {
             
             self.navigationController!.popViewControllerAnimated(true)
         }

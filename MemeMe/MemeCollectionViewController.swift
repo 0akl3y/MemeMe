@@ -10,31 +10,41 @@ import UIKit
 
 class MemeCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {    
     
-    var storedMemes: [Meme] {
+    var sharedModel: AppDelegate {
         
         get{
             var object = UIApplication.sharedApplication().delegate as AppDelegate
-            return object.memes
+            return object
         }
         
     }
     
     var selectedImageIdx: Int?
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         // Do any additional setup after loading the view.
     }
+    
+    
+    override func viewWillAppear(animated: Bool) {
 
+
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+
+    
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        var numberOfMemes = self.storedMemes.count
+        var numberOfMemes = self.sharedModel.memes.count
         
         return numberOfMemes
     }
@@ -43,7 +53,7 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let item = collectionView.dequeueReusableCellWithReuseIdentifier("collectionCell", forIndexPath: indexPath) as UICollectionViewCell
         
-        var content: Meme = storedMemes[indexPath.row] as Meme
+        var content: Meme = self.sharedModel.memes[indexPath.row] as Meme
         var thumbNail: UIImage = content.memedImage
         
 
@@ -51,13 +61,18 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
        
         imageView.image = thumbNail
         
+        
+        
         return item
     }
+    
+    
     
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         self.selectedImageIdx = indexPath.row
+        println(self.selectedImageIdx)
         performSegueWithIdentifier("detailFromCollection", sender: self)
         
         
@@ -67,8 +82,7 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "detailFromCollection"){
             
-            var detailView: DetailViewController = segue.destinationViewController as DetailViewController
-            
+            var detailView: DetailViewController = segue.destinationViewController as DetailViewController            
             detailView.currentImageIdx = self.selectedImageIdx!
             
             
