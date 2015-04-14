@@ -57,6 +57,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         //Check if there is a meme to be edited and display this meme
         
         if var memeToEditIdx = self.sharedModel.currentlySelectedIdx? {
+
             let memeToEdit = self.sharedModel.memes[memeToEditIdx]
             
             self.memedImage = memeToEdit.originalImage
@@ -65,15 +66,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
             self.memeEditorImage!.image = memedImage
             
         }
-            
-            // Otherwise clear the view
-            
-/*        else {
-            
-            self.topText.text = "TOP"
-            self.bottomText.text = "BOTTOM"
-        }*/
-        
         
     }
     
@@ -84,9 +76,8 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         self.cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
         
-        self.subscribeToKeyboardNotification()
-        
         self.activityButton.enabled = self.memeEditorImage?.image != nil
+        self.subscribeToKeyboardNotification()
         
     }
     
@@ -97,11 +88,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
     func pickImageFromSource(imgSourceType: UIImagePickerControllerSourceType){
         
@@ -198,15 +184,14 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         self.clearView()
         
         
-        // Reset currently selected index to clear view
-        
-
+        // Reset currently selected index
         if (sharedModel.currentlySelectedIdx != nil){
             
             self.sharedModel.currentlySelectedIdx = nil
         }
 
         
+        // display sent memes if there are already memes stored
         if (sharedModel.memes.count > 0){
             
             self.performSegueWithIdentifier("showSentMemes", sender: self)
