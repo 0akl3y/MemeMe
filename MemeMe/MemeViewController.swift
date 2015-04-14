@@ -21,10 +21,12 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var selectedImageIdx: Int?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        //upate the data
+        var table = self.view.viewWithTag(1) as UITableView
+        table.reloadData()
     }
     
     

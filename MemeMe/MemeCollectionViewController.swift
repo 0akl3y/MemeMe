@@ -31,7 +31,9 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     
     
     override func viewWillAppear(animated: Bool) {
-
+        
+        var collection = self.view.viewWithTag(2) as UICollectionView
+        collection.reloadData()
 
     }
     
