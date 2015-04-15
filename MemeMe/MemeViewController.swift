@@ -10,23 +10,26 @@ import UIKit
 
 class MemeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var storedMemes: [Meme] {
+    var sharedObject: AppDelegate {
         
         get{
             var object = UIApplication.sharedApplication().delegate as AppDelegate
-            return object.memes
+            return object
         }        
         
     }
     
     var selectedImageIdx: Int?
+    var sentMemesTableView: UITableView!
     
+    @IBOutlet weak var editButton: UIBarButtonItem!
     
     override func viewWillAppear(animated: Bool) {
         
         //upate the data
-        var table = self.view.viewWithTag(1) as UITableView
-        table.reloadData()
+        self.sentMemesTableView = self.view.viewWithTag(1) as UITableView
+        self.sentMemesTableView.reloadData()
+        
     }
     
     
@@ -40,7 +43,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         
-        var numberOfMemes = self.storedMemes.count
+        var numberOfMemes = self.sharedObject.memes.count
         
         return numberOfMemes
     }
@@ -49,7 +52,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("customCell", forIndexPath: indexPath) as UITableViewCell
         
-        var content: Meme = storedMemes[indexPath.row] as Meme
+        var content: Meme = self.sharedObject.memes[indexPath.row] as Meme
         
         var customTextLabel:UILabel = cell.contentView.viewWithTag(101) as UILabel
         customTextLabel.text = content.topText + " " + content.bottomText
@@ -64,8 +67,21 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.selectedImageIdx = indexPath.row
-        performSegueWithIdentifier("detailFromTable", sender: self)
+        
+        if(!self.sentMemesTableView.editing) {
+            
+            self.selectedImageIdx = indexPath.row
+            performSegueWithIdentifier("detailFromTable", sender: self)
+            
+        }
+        
+        else{
+            
+            self.updateButtonsToMatchTableState()
+            
+        }
+        
+        
     }
     
     
@@ -95,24 +111,51 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             var object = UIApplication.sharedApplication().delegate as AppDelegate
             object.window!.rootViewController = startVC
-            
-            
-        
-        
+
         }
         
         
+    }
+    
+    @IBAction func editMemes(sender: UIBarButtonItem) {
         
+        
+        // The edit meme button is also a delete button, if edit mode has already been activated
+        
+        
+        if(!self.sentMemesTableView.editing){
+        
+            self.sentMemesTableView.setEditing(true, animated: true)
+            self.updateButtonsToMatchTableState()
+            
+        }
+        
+        else {
+            
+            //TODO implement actual delete method
+        
+        }
+    
+    }
+    
+    
+    func updateButtonsToMatchTableState() {
+        
+        
+        if var selectedRows: Array  = self.sentMemesTableView.indexPathsForSelectedRows() {
+
+            var numberOfRowsSelected: Int = selectedRows.count
+        
+            // Delete all option should appear if all or no rows in the table are selected
+            var allOrNoRowsSelected: Bool = numberOfRowsSelected == 0 || numberOfRowsSelected == self.sharedObject.memes.count
+            
+            self.editButton.title = allOrNoRowsSelected  ?  "Delete All" : "Delete(\(numberOfRowsSelected))"
+            
+        }
+    
     }
 
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+
 
 }
