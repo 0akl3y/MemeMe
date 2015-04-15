@@ -38,25 +38,26 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // Set up the buttons programmatically because XCode only permits 1 button for each side
         
-        self.addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action:"editMemes:")
-        self.editButton = UIBarButtonItem(title: "EDIT", style: UIBarButtonItemStyle.Bordered, target: self, action:"addMeme:")
-        self.cancelButton = UIBarButtonItem(title: "cancel", style: UIBarButtonItemStyle.Bordered, target: self, action:"cancelEdit:")
+        self.addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action:"addMeme:")
+        self.editButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Bordered, target: self, action:"editMemes:")
+        self.cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Bordered, target: self, action:"endEdit:")
         
-        var rightItems = [self.cancelButton!, self.addButton!]
+        var rightItems = [self.addButton!, self.cancelButton!,]
         
         self.navigationItem.rightBarButtonItems = rightItems
         self.navigationItem.leftBarButtonItem = self.editButton
         
-        
-        
     }
     
     
+    func endEdit(sender:UIBarButtonItem){
+        
+        self.sentMemesTableView.setEditing(false, animated: true)
+        updateEditButtonMode()
+        
+        
+    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
@@ -100,7 +101,11 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
         }
         
+    }
+    
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         
+        self.updateButtonsToMatchTableState()
     }
     
     
@@ -159,6 +164,9 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             var dialog: UIAlertController = UIAlertController(title: dialogTitle, message: dialogMessage, preferredStyle: UIAlertControllerStyle.ActionSheet)
             
             var confirmDelete: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive, handler: { UIAlertAction in self.removeMemes(); })
+            
+            dialog.addAction(confirmDelete)
+            presentViewController(dialog, animated: true, completion: nil)
         
         }
     
@@ -176,12 +184,15 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             // update table view after memes have been removed
             
             self.sentMemesTableView.deleteRowsAtIndexPaths(memesToDelete, withRowAnimation: UITableViewRowAnimation.Fade)
-            
-            self.updateButtonsToMatchTableState()
-        
+
         }
+        
+        self.updateButtonsToMatchTableState()
     
     }
+    
+    
+
     
     func updateButtonsToMatchTableState() {
         //In edit mode the edit button should switch to the title "Delete" followed by the number of rows selected
@@ -207,19 +218,13 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (!self.sentMemesTableView.editing){
             
-            self.editButton!.title = "EDIT"
+            self.editButton!.title = "Edit"
         
         }
     
     }
     
-    func cancelEdit(){
-        
-        self.sentMemesTableView.editing = false
-        updateEditButtonMode()
-        
-    
-    }
+
 
 
 
