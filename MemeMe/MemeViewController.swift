@@ -19,16 +19,35 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
+    
+    var addButton: UIBarButtonItem?
+    var cancelButton: UIBarButtonItem?
+    var editButton: UIBarButtonItem?
+    
     var selectedImageIdx: Int?
     var sentMemesTableView: UITableView!
     
-    @IBOutlet weak var editButton: UIBarButtonItem!
+    
     
     override func viewWillAppear(animated: Bool) {
         
         //upate the data
         self.sentMemesTableView = self.view.viewWithTag(1) as UITableView
         self.sentMemesTableView.reloadData()
+        
+        
+        // Set up the buttons programmatically because XCode only permits 1 button for each side
+        
+        self.addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action:"editMemes:")
+        self.editButton = UIBarButtonItem(title: "EDIT", style: UIBarButtonItemStyle.Bordered, target: self, action:"addMeme:")
+        self.cancelButton = UIBarButtonItem(title: "cancel", style: UIBarButtonItemStyle.Bordered, target: self, action:"cancelEdit:")
+        
+        var rightItems = [self.cancelButton!, self.addButton!]
+        
+        self.navigationItem.rightBarButtonItems = rightItems
+        self.navigationItem.leftBarButtonItem = self.editButton
+        
+        
         
     }
     
@@ -97,7 +116,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     
     
-    @IBAction func addMemeButton(sender: AnyObject) {
+    func addMeme(sender: AnyObject) {
         
         if(self.presentingViewController != nil){
         
@@ -117,7 +136,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    @IBAction func editMemes(sender: UIBarButtonItem) {
+    func editMemes(sender: UIBarButtonItem) {
         
         
         // The edit meme button is also a delete button, if edit mode has already been activated
@@ -133,13 +152,39 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         else {
             
             //TODO implement actual delete method
+            
+            var dialogTitle: String = "Delete Memes"
+            var dialogMessage: String = "Are your sure, you want to delete the selected Meme(s)?"
+            
+            var dialog: UIAlertController = UIAlertController(title: dialogTitle, message: dialogMessage, preferredStyle: UIAlertControllerStyle.ActionSheet)
+            
+            var confirmDelete: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive, handler: { UIAlertAction in self.removeMemes(); })
         
         }
     
     }
     
+    func removeMemes(){
+        
+        //iterate through all selected memes and delete them
+        
+        var memesToDelete: Array = self.sentMemesTableView.indexPathsForSelectedRows()!
+        for indexPath in memesToDelete {
+            
+            self.sharedObject.memes.removeAtIndex(indexPath.row)
+            
+            // update table view after memes have been removed
+            
+            self.sentMemesTableView.deleteRowsAtIndexPaths(memesToDelete, withRowAnimation: UITableViewRowAnimation.Fade)
+            
+            self.updateButtonsToMatchTableState()
+        
+        }
+    
+    }
     
     func updateButtonsToMatchTableState() {
+        //In edit mode the edit button should switch to the title "Delete" followed by the number of rows selected
         
         
         if var selectedRows: Array  = self.sentMemesTableView.indexPathsForSelectedRows() {
@@ -149,9 +194,30 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             // Delete all option should appear if all or no rows in the table are selected
             var allOrNoRowsSelected: Bool = numberOfRowsSelected == 0 || numberOfRowsSelected == self.sharedObject.memes.count
             
-            self.editButton.title = allOrNoRowsSelected  ?  "Delete All" : "Delete(\(numberOfRowsSelected))"
+            self.editButton!.title = allOrNoRowsSelected  ?  "Delete All" : "Delete(\(numberOfRowsSelected))"
+            
             
         }
+    
+    }
+    
+    
+    func updateEditButtonMode() {
+        //when no longer in edit mode the edit button should be resetted to the title "EDIT"
+        
+        if (!self.sentMemesTableView.editing){
+            
+            self.editButton!.title = "EDIT"
+        
+        }
+    
+    }
+    
+    func cancelEdit(){
+        
+        self.sentMemesTableView.editing = false
+        updateEditButtonMode()
+        
     
     }
 
