@@ -8,6 +8,21 @@
 
 import UIKit
 
+/*
+extension Array {
+    // get the same functionality as NSMutableArray.removeObjectsAtIndexes for a swift array
+    
+    mutating func removeAtIndexes(indexes: Array) {
+        for (var i = indexes.count; i >= 1; i--) {
+            
+            var itemToRemove = indexes[i] as Int
+            self.removeAtIndex(itemToRemove)
+        }
+    }
+    
+}
+*/
+
 class MemeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var sharedObject: AppDelegate {
@@ -184,23 +199,28 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     }
     
+    
+    
     func removeMemes(){
         
-        //iterate through all selected memes and delete them
+        //iterate through all selected memes and delete them in reverse order to avoid
+        // index out of bounds errors
         
         var memesToDelete  = self.sentMemesTableView.indexPathsForSelectedRows()!
-        for indexPath in memesToDelete {
-            
-            println(self.sharedObject.memes.count)
-            self.sharedObject.memes.removeAtIndex(indexPath.row)
-            
-            // update table view after memes have been removed
+        
 
+        for (var i:Int = memesToDelete.count - 1; i >= 0; i--) {
+            
+            self.sharedObject.memes.removeAtIndex(memesToDelete[i].row)
+            
         }
+        
+
         
         self.sentMemesTableView.deleteRowsAtIndexPaths(memesToDelete, withRowAnimation: UITableViewRowAnimation.Fade)
         
         self.updateButtonsToMatchTableState()
+        self.updateEditButtonMode()
     
     }
     
