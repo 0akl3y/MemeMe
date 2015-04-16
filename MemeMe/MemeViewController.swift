@@ -29,6 +29,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     
+    
     override func viewWillAppear(animated: Bool) {
         
         //upate the data
@@ -97,6 +98,8 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         else{
             
+            println()
+            
             self.updateButtonsToMatchTableState()
             
         }
@@ -106,6 +109,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         
         self.updateButtonsToMatchTableState()
+        self.updateEditButtonMode()
     }
     
     
@@ -153,6 +157,14 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.updateButtonsToMatchTableState()
             
         }
+            
+        else if(self.sentMemesTableView.indexPathsForSelectedRows() == nil){
+            
+            self.updateButtonsToMatchTableState()
+        
+        
+        }
+            
         
         else {
             
@@ -176,16 +188,17 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         //iterate through all selected memes and delete them
         
-        var memesToDelete: Array = self.sentMemesTableView.indexPathsForSelectedRows()!
+        var memesToDelete  = self.sentMemesTableView.indexPathsForSelectedRows()!
         for indexPath in memesToDelete {
             
+            println(self.sharedObject.memes.count)
             self.sharedObject.memes.removeAtIndex(indexPath.row)
             
             // update table view after memes have been removed
-            
-            self.sentMemesTableView.deleteRowsAtIndexPaths(memesToDelete, withRowAnimation: UITableViewRowAnimation.Fade)
 
         }
+        
+        self.sentMemesTableView.deleteRowsAtIndexPaths(memesToDelete, withRowAnimation: UITableViewRowAnimation.Fade)
         
         self.updateButtonsToMatchTableState()
     
@@ -216,7 +229,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func updateEditButtonMode() {
         //when no longer in edit mode the edit button should be resetted to the title "EDIT"
         
-        if (!self.sentMemesTableView.editing){
+        if (!self.sentMemesTableView.editing || self.sentMemesTableView.indexPathsForSelectedRows() == nil){
             
             self.editButton!.title = "Edit"
         
