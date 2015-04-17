@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class MemeCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {    
     
     var sharedModel: AppDelegate {
@@ -21,29 +22,40 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     
     var selectedImageIdx: Int?
     
+    var addButton: UIBarButtonItem?
+    var cancelButton: UIBarButtonItem?
+    var editButton: UIBarButtonItem?
+    
+    var sentMemesCollectionView: UICollectionView!
+    var editMode: Bool = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
 
-        // Do any additional setup after loading the view.
     }
     
     
     override func viewWillAppear(animated: Bool) {
         
-        var collection = self.view.viewWithTag(2) as UICollectionView
-        collection.reloadData()
+        self.sentMemesCollectionView = self.view.viewWithTag(2) as UICollectionView
+        self.sentMemesCollectionView.reloadData()
+        
+        
+        //Add navbuttons
+        
+        
+        self.addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action:"addMeme:")
+        self.editButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Bordered, target: self, action:"editMemes:")
+        self.cancelButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action:"endEdit:")
+        
+        self.navigationItem.leftBarButtonItem = self.editButton
+        var rightItems = [self.cancelButton!,self.addButton!]
+        self.navigationItem.rightBarButtonItems = rightItems
 
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    
+    //MARK: - CollectionView and DataSource handling
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         var numberOfMemes = self.sharedModel.memes.count
@@ -63,22 +75,37 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
        
         imageView.image = thumbNail
         
-        
-        
         return item
     }
     
     
-    
-    
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
-        self.selectedImageIdx = indexPath.row
-        println(self.selectedImageIdx)
-        performSegueWithIdentifier("detailFromCollection", sender: self)
         
+        if(!editMode) {
+            
+            self.selectedImageIdx = indexPath.row
+            performSegueWithIdentifier("detailFromCollection", sender: self)
+            
+        }
+        
+        else {
+            
+            var selectedCell: UICollectionViewCell = self.sentMemesCollectionView.cellForItemAtIndexPath(indexPath)!
+            var selectionFrame: CGRect = CGRectMake( 0.0, 0.0, selectedCell.frame.width, selectedCell.frame.width)
+            var selectionIndicator: UIImageView = UIImageView(frame: selectionFrame)
+            
+            selectionIndicator.tintColor = UIColor.blueColor()
+            
+            self.sentMemesCollectionView.cellForItemAtIndexPath(indexPath)!.selectedBackgroundView = selectionIndicator
+            
+            println(self.sentMemesCollectionView.indexPathsForSelectedItems().count)
+        
+        }
         
     }
+    
+    
     
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -91,21 +118,23 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         }
     }
     
+    //MARK: - Actions
     
-    @IBAction func addNewMeme(sender: UIBarButtonItem) {
+    func addMeme(sender: UIBarButtonItem) {
 
         self.dismissViewControllerAnimated(true, completion:nil)
         
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    //TODO: - enable multiselect
+    func editMemes(sender: UIBarButtonItem) {
+        
+        editMode = true
+        
+        self.sentMemesCollectionView.allowsSelection = true
+        self.sentMemesCollectionView.allowsMultipleSelection = true
+    
     }
-    */
+
 
 }

@@ -19,6 +19,7 @@
 		8FCCAA1F1ACF300E00032F3F /* MemeMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCCAA1E1ACF300E00032F3F /* MemeMeTests.swift */; };
 		8FCCAA2A1ACF307000032F3F /* MemedImageContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCCAA281ACF307000032F3F /* MemedImageContext.swift */; };
 		8FCCAA2B1ACF307000032F3F /* Meme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCCAA291ACF307000032F3F /* Meme.swift */; };
+		8FE7FD2C1AE0D43600E4F7ED /* ConfirmationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE7FD2B1AE0D43600E4F7ED /* ConfirmationDialog.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		8FCCAA1E1ACF300E00032F3F /* MemeMeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemeMeTests.swift; sourceTree = "<group>"; };
 		8FCCAA281ACF307000032F3F /* MemedImageContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemedImageContext.swift; sourceTree = "<group>"; };
 		8FCCAA291ACF307000032F3F /* Meme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Meme.swift; sourceTree = "<group>"; };
+		8FE7FD2B1AE0D43600E4F7ED /* ConfirmationDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmationDialog.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				8FC92D1E1AD43933006EA207 /* MemeViewController.swift */,
+				8FE7FD2B1AE0D43600E4F7ED /* ConfirmationDialog.swift */,
 				8FCAA5061AD477DC007793F7 /* CustomTableViewCell.swift */,
 				8FCCAA081ACF300E00032F3F /* AppDelegate.swift */,
 				8FCCAA0A1ACF300E00032F3F /* ViewController.swift */,
@@ -240,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8FCCAA0B1ACF300E00032F3F /* ViewController.swift in Sources */,
+				8FE7FD2C1AE0D43600E4F7ED /* ConfirmationDialog.swift in Sources */,
 				8FCCAA2B1ACF307000032F3F /* Meme.swift in Sources */,
 				8FCAA5071AD477DC007793F7 /* CustomTableViewCell.swift in Sources */,
 				8FCCAA2A1ACF307000032F3F /* MemedImageContext.swift in Sources */,

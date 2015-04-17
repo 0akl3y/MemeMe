@@ -216,7 +216,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     
     }
     
-    // Keyboard Handling
+    //MARK: - Keyboard Handling
     
     func subscribeToKeyboardNotification() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)

@@ -12,7 +12,7 @@ import UIKit
 
 class MemeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var sharedObject: AppDelegate {
+    var sharedModel: AppDelegate {
         
         get{
             var object = UIApplication.sharedApplication().delegate as AppDelegate
@@ -51,13 +51,13 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
-//MARK - UITableViewDelegate and DataSource handling
+//MARK: - UITableViewDelegate and DataSource handling
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         
-        var numberOfMemes = self.sharedObject.memes.count
+        var numberOfMemes = self.sharedModel.memes.count
         
         return numberOfMemes
     }
@@ -66,7 +66,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("customCell", forIndexPath: indexPath) as UITableViewCell
         
-        var content: Meme = self.sharedObject.memes[indexPath.row] as Meme
+        var content: Meme = self.sharedModel.memes[indexPath.row] as Meme
         
         var customTextLabel:UILabel = cell.contentView.viewWithTag(101) as UILabel
         customTextLabel.text = content.topText + " " + content.bottomText
@@ -115,7 +115,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 
-//MARK - action methods
+//MARK: - action methods
     
     
     func addMeme(sender: AnyObject) {
@@ -198,7 +198,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         for (var idx:Int = memesToDelete.count - 1; idx >= 0; idx--) {
             
-            self.sharedObject.memes.removeAtIndex(memesToDelete[idx].row)
+            self.sharedModel.memes.removeAtIndex(memesToDelete[idx].row)
             
         }
         
@@ -221,7 +221,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
-//MARK - button handling
+//MARK: - button handling
     
     func displayCancelMultiselection(){
         
@@ -252,7 +252,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             var numberOfRowsSelected: Int = selectedRows.count
         
             // Delete all option should appear if all or no rows in the table are selected
-            var allOrNoRowsSelected: Bool = numberOfRowsSelected == 0 || numberOfRowsSelected == self.sharedObject.memes.count
+            var allOrNoRowsSelected: Bool = numberOfRowsSelected == 0 || numberOfRowsSelected == self.sharedModel.memes.count
             
             self.editButton!.title = allOrNoRowsSelected  ?  "Delete All" : "Delete(\(numberOfRowsSelected))"
             
@@ -271,8 +271,6 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             self.editButton!.title = "Edit"
             self.editButton!.enabled = true
-            
-        
             }
             
         else if (self.sentMemesTableView.indexPathsForSelectedRows() == nil){
