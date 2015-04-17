@@ -197,8 +197,8 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="458"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="5" id="no0-9P-ieR">
-                                    <size key="itemSize" width="90" height="90"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="itemSize" width="105" height="105"/>
+                                    <size key="headerReferenceSize" width="10" height="10"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
                                 </collectionViewFlowLayout>
@@ -207,18 +207,30 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="105" height="105"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PCl-k0-kC0">
-                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PCl-k0-kC0">
+                                                    <rect key="frame" x="2" y="3" width="100" height="100"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="KSp-p2-bdz"/>
+                                                        <constraint firstAttribute="height" constant="100" id="lDp-fP-Ysm"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <size key="customSize" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="centerY" secondItem="PCl-k0-kC0" secondAttribute="centerY" id="Kb6-ZD-Tzh"/>
+                                            <constraint firstAttribute="centerX" secondItem="PCl-k0-kC0" secondAttribute="centerX" id="luM-VO-eAp"/>
+                                        </constraints>
+                                        <size key="customSize" width="105" height="105"/>
                                     </collectionViewCell>
                                 </cells>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ov9-uR-bBD">
+                                    <rect key="frame" x="0.0" y="64" width="320" height="10"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="q0a-cK-C6E" id="n2E-9P-v9q"/>
                                     <outlet property="delegate" destination="q0a-cK-C6E" id="yw1-Mz-y8X"/>
@@ -233,13 +245,7 @@
                             <constraint firstAttribute="height" secondItem="HVg-jM-cDY" secondAttribute="height" constant="110" id="oIu-kK-ffH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Sent Memes" id="Vzz-g4-kv3">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="bEU-vn-dNn">
-                            <connections>
-                                <action selector="addNewMeme:" destination="q0a-cK-C6E" id="x74-g8-co1"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Sent Memes" id="Vzz-g4-kv3"/>
                     <connections>
                         <segue destination="agL-3M-CL4" kind="push" identifier="detailFromCollection" id="KGq-Q5-NxJ"/>
                     </connections>

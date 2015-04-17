@@ -75,6 +75,16 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
        
         imageView.image = thumbNail
         
+        
+        //set background image when item is selected
+        
+
+        var selectionFrame: CGRect = CGRectMake( 0.0, 0.0, item.frame.width, item.frame.height)
+        var selectionIndicator: UIImageView = UIImageView(frame: selectionFrame)
+        
+        selectionIndicator.backgroundColor = UIColor.blueColor()
+        item.selectedBackgroundView =  selectionIndicator
+        
         return item
     }
     
@@ -91,13 +101,7 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         
         else {
             
-            var selectedCell: UICollectionViewCell = self.sentMemesCollectionView.cellForItemAtIndexPath(indexPath)!
-            var selectionFrame: CGRect = CGRectMake( 0.0, 0.0, selectedCell.frame.width, selectedCell.frame.width)
-            var selectionIndicator: UIImageView = UIImageView(frame: selectionFrame)
-            
-            selectionIndicator.tintColor = UIColor.blueColor()
-            
-            self.sentMemesCollectionView.cellForItemAtIndexPath(indexPath)!.selectedBackgroundView = selectionIndicator
+
             
             println(self.sentMemesCollectionView.indexPathsForSelectedItems().count)
         
