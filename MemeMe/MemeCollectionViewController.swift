@@ -31,12 +31,14 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
     }
     
     
     override func viewWillAppear(animated: Bool) {
+        
         
         self.sentMemesCollectionView = self.view.viewWithTag(2) as UICollectionView
         self.sentMemesCollectionView.reloadData()
@@ -101,8 +103,7 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         
         else {
             
-
-            
+            self.updateButtonsToMatchTableState()
             println(self.sentMemesCollectionView.indexPathsForSelectedItems().count)
         
         }
@@ -121,8 +122,8 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
             
         }
     }
-    
-    //MARK: - Actions
+
+//MARK: - Actions
     
     func addMeme(sender: UIBarButtonItem) {
 
@@ -130,15 +131,91 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         
     }
     
-    //TODO: - enable multiselect
+
     func editMemes(sender: UIBarButtonItem) {
         
-        editMode = true
+        editMode = true        
         
-        self.sentMemesCollectionView.allowsSelection = true
         self.sentMemesCollectionView.allowsMultipleSelection = true
+        self.displayCancelMultiselection()
+        
+        self.updateButtonsToMatchTableState()
     
     }
 
 
+
+
+func endEdit(sender:UIBarButtonItem){
+    
+    //Reset edit button if cancel button is pressed
+    
+    self.editMode = false
+
+    self.updateButtonsToMatchTableState()
+    self.hideCancelMultiselection()
+
+    self.sentMemesCollectionView.reloadData()
+    self.sentMemesCollectionView.allowsMultipleSelection = false
+    
 }
+
+
+
+//MARK: - button handling
+
+func displayCancelMultiselection(){
+    
+    //Only display cancel button for multi selection if in multi selection mode
+    
+    self.cancelButton!.enabled = true
+    self.cancelButton!.title = "Cancel"
+    
+}
+
+func hideCancelMultiselection(){
+    
+    self.cancelButton!.enabled = false
+    self.cancelButton!.title = ""
+    
+    
+}
+
+
+
+
+func updateButtonsToMatchTableState() {
+    //In edit mode the edit button should switch to the title "Delete" followed by the number of rows selected
+    
+        var selectedRows = self.sentMemesCollectionView.indexPathsForSelectedItems().count
+        
+        // Delete all option should appear if all or no rows in the table are selected
+        var allOrNoRowsSelected: Bool = selectedRows == 0 || selectedRows == self.sharedModel.memes.count
+    
+    
+    if (self.editMode) {
+        
+            self.editButton!.title = allOrNoRowsSelected  ?  "Delete All" : "Delete(\(selectedRows))"
+    }
+    
+    else {
+        
+            self.editButton!.title = "Edit"
+            //self.editButton!.enabled = true
+        
+        }
+    
+        
+        
+    
+    
+    }
+
+
+    
+    
+    
+
+}
+
+
