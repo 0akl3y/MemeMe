@@ -29,6 +29,8 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var selectedImageIdx: Int?
     var sentMemesTableView: UITableView!
     
+    var allRows = [NSIndexPath]()
+    
     override func viewWillAppear(animated: Bool) {
         
         //upate the data
@@ -64,6 +66,10 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        // Store all index paths to easily remove all
+        self.allRows.append(indexPath)
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("customCell", forIndexPath: indexPath) as UITableViewCell
         
         var content: Meme = self.sharedModel.memes[indexPath.row] as Meme
@@ -92,7 +98,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         else{
             
             self.updateButtonsToMatchTableState()
-            self.updateEditButtonMode()
+
             
         }
         
@@ -101,7 +107,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         
         self.updateButtonsToMatchTableState()
-        self.updateEditButtonMode()
+
     }
     
     
@@ -150,15 +156,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.sentMemesTableView.setEditing(true, animated: true)
             self.updateButtonsToMatchTableState()
             self.displayCancelMultiselection()
-            self.updateEditButtonMode()
-            
-        }
-            
-        else if(self.sentMemesTableView.indexPathsForSelectedRows() == nil){
-            // make sure the edit button is displayed with "Edit", if nothing is selected
-            
-            self.updateButtonsToMatchTableState()
-            self.updateEditButtonMode()
+
             
         }
             
@@ -193,19 +191,47 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         //iterate through all selected memes and delete them in reverse order to avoid
         // index out of bounds errors
         
-        var memesToDelete  = self.sentMemesTableView.indexPathsForSelectedRows()!
         
+        var memesToDelete = [NSIndexPath]()
 
-        for (var idx:Int = memesToDelete.count - 1; idx >= 0; idx--) {
+        
+        if self.sentMemesTableView.indexPathsForSelectedRows() != nil {
             
-            self.sharedModel.memes.removeAtIndex(memesToDelete[idx].row)
+            memesToDelete = self.sentMemesTableView.indexPathsForSelectedRows()! as [NSIndexPath]
+        
+            for (var idx:Int = memesToDelete.count - 1; idx >= 0; idx--) {
+                
+                self.sharedModel.memes.removeAtIndex(memesToDelete[idx].row)
+                
+            }
             
         }
         
-        self.sentMemesTableView.deleteRowsAtIndexPaths(memesToDelete, withRowAnimation: UITableViewRowAnimation.Fade)
         
+        // if deleteAll is tapped, but no row was selected all should be removed
+
+        else {
+            
+            
+            memesToDelete = self.allCells
+            
+            for (var idx:Int = memesToDelete.count - 1; idx >= 0; idx--) {
+                
+                self.sharedModel.memes.removeAtIndex(memesToDelete[idx].row)
+                
+            }
+            
+        
+        }
+        
+        self.sentMemesTableView.deleteRowsAtIndexPaths(memesToDelete, withRowAnimation: UITableViewRowAnimation.Fade)
+
         self.updateButtonsToMatchTableState()
-        self.updateEditButtonMode()
+        
+        if(self.sharedModel.memes.count == 0){
+            self.dismissViewControllerAnimated(false, completion: nil)
+        }
+
     
     }
     
@@ -214,8 +240,6 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         //Reset edit button if cancel button is pressed
         
         self.sentMemesTableView.setEditing(false, animated: true)
-        updateEditButtonMode()
-        
         self.hideCancelMultiselection()
         
     }
@@ -247,52 +271,43 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         //In edit mode the edit button should switch to the title "Delete" followed by the number of rows selected
         
         
-        if var selectedRows: Array  = self.sentMemesTableView.indexPathsForSelectedRows() {
+        if self.sentMemesTableView.editing{
+        
+        
+            // indexPathsForSelectedRows returns nil if no row is selected, make sure to not unwrap a nil
+            
+            if var selectedRows: Array  = self.sentMemesTableView.indexPathsForSelectedRows() {
 
-            var numberOfRowsSelected: Int = selectedRows.count
-        
-            // Delete all option should appear if all or no rows in the table are selected
-            var allOrNoRowsSelected: Bool = numberOfRowsSelected == 0 || numberOfRowsSelected == self.sharedModel.memes.count
+                var numberOfRowsSelected: Int = selectedRows.count
             
-            self.editButton!.title = allOrNoRowsSelected  ?  "Delete All" : "Delete(\(numberOfRowsSelected))"
-            
-            
-        }
-    
-    }
-    
-    
-    func updateEditButtonMode() {
-        //when no longer in edit mode the edit button should be resetted to the title "EDIT"
-        //in edit mode the editbutton should only be enabled as delete button as long something is selected
-        
-        
-        if (!self.sentMemesTableView.editing){
-            
-            self.editButton!.title = "Edit"
-            self.editButton!.enabled = true
+                // Delete all option should appear if all or no rows in the table are selected
+                var allRowsSelected: Bool =  numberOfRowsSelected == self.sharedModel.memes.count
+                self.editButton!.title = allRowsSelected  ?  "Delete All" : "Delete(\(numberOfRowsSelected))"
+                
             }
             
-        else if (self.sentMemesTableView.indexPathsForSelectedRows() == nil){
-
-            self.editButton!.title = "Edit"
-        
-        }
-        
-        
-        
-        if (self.sentMemesTableView.editing){
             
-            self.editButton!.enabled = self.sentMemesTableView.indexPathsForSelectedRows() != nil
-        
+            else{
+                //if no rows selected one may want to delete all
+                
+                self.editButton!.title = "Delete All"
+            
+            }
         
         }
+            
+        //when not in edit mode the button title should be "Edit" again
+        
+        else {
+            
+            self.editButton!.title = "Edit"
+            
+        }
+        
+        
         
     
     }
-    
-
-
 
 
 

@@ -29,6 +29,8 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     var sentMemesCollectionView: UICollectionView!
     var editMode: Bool = false
     
+    var allCells = [NSIndexPath]()
+    
     
     override func viewDidLoad() {
         
@@ -67,6 +69,9 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        self.allCells.append(indexPath)
+        
         let item = collectionView.dequeueReusableCellWithReuseIdentifier("collectionCell", forIndexPath: indexPath) as UICollectionViewCell
         
         var content: Meme = self.sharedModel.memes[indexPath.row] as Meme
@@ -104,10 +109,19 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         else {
             
             self.updateButtonsToMatchTableState()
-            println(self.sentMemesCollectionView.indexPathsForSelectedItems().count)
         
         }
         
+    }
+    
+    
+    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+        
+        if(editMode){
+
+            self.updateButtonsToMatchTableState()
+        
+        }
     }
     
     
@@ -125,30 +139,98 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
 
 //MARK: - Actions
     
+    
     func addMeme(sender: UIBarButtonItem) {
 
         self.dismissViewControllerAnimated(true, completion:nil)
         
     }
     
+    
+    func removeMemes(){
+        
+        //iterate through all selected memes and delete them in reverse order to avoid
+        // index out of bounds errors
+        
+        var memesToDelete  = self.sentMemesCollectionView.indexPathsForSelectedItems()
+        
+        if(memesToDelete.count > 0) {
+            
+            for (var idx:Int = memesToDelete.count - 1; idx >= 0; idx--) {
+                
+                self.sharedModel.memes.removeAtIndex(memesToDelete[idx].row)
+                
+            }
+        
+        }
+        
+            
+        // if deleteAll is tapped, but no row was selected all should be removed
+        else {
+            
+            memesToDelete = self.allCells
+            
+            for (var idx:Int = memesToDelete.count - 1; idx >= 0; idx--) {
+                
+                self.sharedModel.memes.removeAtIndex(memesToDelete[idx].row)
+                
+            }
+        
+        }
+        
+        
+        
+        self.sentMemesCollectionView.deleteItemsAtIndexPaths(memesToDelete)        
+        self.updateButtonsToMatchTableState()
+        
+        if(self.sharedModel.memes.count == 0){
+            self.dismissViewControllerAnimated(false, completion: nil)
+        }
+        
+    }
+    
 
     func editMemes(sender: UIBarButtonItem) {
         
-        editMode = true        
+        if(!self.editMode) {
         
-        self.sentMemesCollectionView.allowsMultipleSelection = true
-        self.displayCancelMultiselection()
+            self.editMode = true
+            
+            self.sentMemesCollectionView.allowsMultipleSelection = true
+            self.displayCancelMultiselection()
+            
+            self.updateButtonsToMatchTableState()
         
-        self.updateButtonsToMatchTableState()
+        }
+        
+        else {
+            
+            // Display a dialog to confirm the delete action
+            
+            
+            var dialogTitle: String = "Delete Memes"
+            var dialogMessage: String = "Are your sure, you want to delete the selected Meme(s)?"
+            
+            var dialog: UIAlertController = UIAlertController(title: dialogTitle, message: dialogMessage, preferredStyle: UIAlertControllerStyle.ActionSheet)
+            
+            var confirmDelete: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive, handler: { UIAlertAction in self.removeMemes(); })
+            
+            var cancelDelete: UIAlertAction = UIAlertAction(title: "NO", style: UIAlertActionStyle.Cancel, handler: nil)
+            
+            dialog.addAction(confirmDelete)
+            dialog.addAction(cancelDelete)
+            
+            presentViewController(dialog, animated: true, completion: nil)
+            
+        }
+        
     
     }
 
 
-
-
 func endEdit(sender:UIBarButtonItem){
     
-    //Reset edit button if cancel button is pressed
+    //Reset edit mode if cancel button is pressed and remove all selections
     
     self.editMode = false
 
