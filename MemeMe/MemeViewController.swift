@@ -213,7 +213,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         else {
             
             
-            memesToDelete = self.allCells
+            memesToDelete = self.allRows
             
             for (var idx:Int = memesToDelete.count - 1; idx >= 0; idx--) {
                 
