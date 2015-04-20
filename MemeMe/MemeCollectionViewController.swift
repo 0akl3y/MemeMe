@@ -227,11 +227,11 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
                 
             else if (self.sharedModel.memes.count == numberOfSelectedMemes ||  numberOfSelectedMemes == 0) {
                 
-                var memeString = "ALL Memes!!"
+                 memeString = "ALL Memes?!"
             }
             
             var dialogTitle: String = "Delete Memes"
-            var dialogMessage: String = "Are your sure, you want to delete \(memeString)?"
+            var dialogMessage: String = "Are your sure that you want to delete \(memeString)"
             
             var dialog: UIAlertController = UIAlertController(title: dialogTitle, message: dialogMessage, preferredStyle: UIAlertControllerStyle.ActionSheet)
             
@@ -283,12 +283,9 @@ func hideCancelMultiselection(){
     self.cancelButton!.enabled = false
     self.cancelButton!.title = ""
     
-    
 }
 
-
-
-
+    
 func updateButtonsToMatchTableState() {
     //In edit mode the edit button should switch to the title "Delete" followed by the number of rows selected
     

@@ -168,6 +168,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             // Display a dynamic dialog with the number of the memes to be deleted to confirm the delete action
             
             
+
             var memeString = "ALL Memes?!"
             
             
@@ -185,6 +186,9 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     
                 }
             }
+
+            
+
                     
         
             var dialogTitle: String = "Delete Memes"
