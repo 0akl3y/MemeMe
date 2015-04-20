@@ -18,7 +18,7 @@ class DetailViewController: UIViewController {
     var sharedObject: AppDelegate {
         
         get{
-            var object = UIApplication.sharedApplication().delegate as AppDelegate
+            var object = UIApplication.sharedApplication().delegate as! AppDelegate
             
             return object
         }
@@ -46,7 +46,7 @@ class DetailViewController: UIViewController {
         
         var butttons = [self.deleteButton!, self.editButton!]
         
-        self.navigationItem.rightBarButtonItems = butttons as NSArray
+        self.navigationItem.rightBarButtonItems = butttons as [AnyObject]
         
         // Do any additional setup after loading the view.
     }

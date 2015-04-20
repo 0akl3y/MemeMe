@@ -13,7 +13,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     var sharedModel: AppDelegate {
         
         get{
-            var object = UIApplication.sharedApplication().delegate as AppDelegate
+            var object = UIApplication.sharedApplication().delegate as! AppDelegate
             return object
         }
         
@@ -56,7 +56,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         //Check if there is a meme to be edited and display this meme
         
-        if var memeToEditIdx = self.sharedModel.currentlySelectedIdx? {
+        if var memeToEditIdx = self.sharedModel.currentlySelectedIdx {
 
             let memeToEdit = self.sharedModel.memes[memeToEditIdx]
             
@@ -141,8 +141,9 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         let activityView = UIActivityViewController(activityItems: memeActivityObject, applicationActivities: nil)
         
         
-        activityView.completionHandler = {activityType, completed in self.save()
+        activityView.completionWithItemsHandler = {activityType, completed, returnedItems, activityError in self.save()
         self.clearView()}
+        
         
         self.presentViewController(activityView, animated: true, completion: nil)
             
@@ -249,7 +250,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     func getKeyboardHeight(notification: NSNotification) -> CGFloat{
         
         let userInfo:Dictionary = notification.userInfo as Dictionary!
-        let keyboardSize = userInfo[UIKeyboardFrameEndUserInfoKey] as NSValue
+        let keyboardSize = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
         
         return keyboardSize.CGRectValue().height
 

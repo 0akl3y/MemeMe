@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (self.memes.count > 0){
             
         var storyboard = UIStoryboard(name: "Main", bundle: nil)
-        var initialVC: UIViewController = storyboard.instantiateViewControllerWithIdentifier("MemeOverview") as UIViewController
+        var initialVC: UIViewController = storyboard.instantiateViewControllerWithIdentifier("MemeOverview") as! UIViewController
             
             window!.rootViewController = initialVC
         

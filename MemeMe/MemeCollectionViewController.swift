@@ -14,7 +14,7 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     var sharedModel: AppDelegate {
         
         get{
-            var object = UIApplication.sharedApplication().delegate as AppDelegate
+            var object = UIApplication.sharedApplication().delegate as! AppDelegate
             return object
         }
         
@@ -42,7 +42,7 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     override func viewWillAppear(animated: Bool) {
         
         
-        self.sentMemesCollectionView = self.view.viewWithTag(2) as UICollectionView
+        self.sentMemesCollectionView = self.view.viewWithTag(2) as! UICollectionView
         self.sentMemesCollectionView.reloadData()
         
         
@@ -50,8 +50,8 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         
         
         self.addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action:"addMeme:")
-        self.editButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Bordered, target: self, action:"editMemes:")
-        self.cancelButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action:"endEdit:")
+        self.editButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Plain, target: self, action:"editMemes:")
+        self.cancelButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action:"endEdit:")
         
         self.navigationItem.leftBarButtonItem = self.editButton
         var rightItems = [self.cancelButton!,self.addButton!]
@@ -72,13 +72,13 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         
-        let item = collectionView.dequeueReusableCellWithReuseIdentifier("collectionCell", forIndexPath: indexPath) as UICollectionViewCell
+        let item = collectionView.dequeueReusableCellWithReuseIdentifier("collectionCell", forIndexPath: indexPath) as! UICollectionViewCell
         
         var content: Meme = self.sharedModel.memes[indexPath.row] as Meme
         var thumbNail: UIImage = content.memedImage
         
 
-        var imageView: UIImageView = item.contentView.viewWithTag(100) as UIImageView
+        var imageView: UIImageView = item.contentView.viewWithTag(100) as! UIImageView
        
         imageView.image = thumbNail
         
@@ -127,7 +127,7 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "detailFromCollection"){
             
-            var detailView: DetailViewController = segue.destinationViewController as DetailViewController            
+            var detailView: DetailViewController = segue.destinationViewController as! DetailViewController
             detailView.currentImageIdx = self.selectedImageIdx!
             
             

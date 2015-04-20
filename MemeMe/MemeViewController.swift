@@ -15,7 +15,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var sharedModel: AppDelegate {
         
         get{
-            var object = UIApplication.sharedApplication().delegate as AppDelegate
+            var object = UIApplication.sharedApplication().delegate as! AppDelegate
             return object
         }        
         
@@ -33,15 +33,15 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewWillAppear(animated: Bool) {
         
         //upate the data
-        self.sentMemesTableView = self.view.viewWithTag(1) as UITableView
+        self.sentMemesTableView = self.view.viewWithTag(1)as! UITableView
         self.sentMemesTableView.reloadData()
         
         
         // Set up the buttons programmatically because XCode only permits 1 button for each side
         
         self.addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action:"addMeme:")
-        self.editButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Bordered, target: self, action:"editMemes:")
-        self.cancelButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Bordered, target: self, action:"endEdit:")
+        self.editButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Plain, target: self, action:"editMemes:")
+        self.cancelButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action:"endEdit:")
         
         self.navigationItem.leftBarButtonItem = self.editButton
         
@@ -69,14 +69,14 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // Store all index paths to easily remove all
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("customCell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("customCell", forIndexPath: indexPath) as! UITableViewCell
         
         var content: Meme = self.sharedModel.memes[indexPath.row] as Meme
         
-        var customTextLabel:UILabel = cell.contentView.viewWithTag(101) as UILabel
+        var customTextLabel:UILabel = cell.contentView.viewWithTag(101) as! UILabel
         customTextLabel.text = content.topText + " " + content.bottomText
 
-        var customImageView:UIImageView = cell.contentView.viewWithTag(100) as UIImageView
+        var customImageView:UIImageView = cell.contentView.viewWithTag(100) as! UIImageView
         var thumbNail: UIImage = content.memedImage
         customImageView.image = thumbNail
 
@@ -113,7 +113,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "detailFromTable"){
             
-            var detailView: DetailViewController = segue.destinationViewController as DetailViewController
+            var detailView: DetailViewController = segue.destinationViewController as! DetailViewController
             detailView.currentImageIdx = self.selectedImageIdx!
             
             
@@ -133,9 +133,9 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         else {
             
-            var startVC = self.storyboard!.instantiateInitialViewController() as MemeViewController
+            var startVC = self.storyboard!.instantiateInitialViewController() as! MemeViewController
             
-            var object = UIApplication.sharedApplication().delegate as AppDelegate
+            var object = UIApplication.sharedApplication().delegate as! AppDelegate
             object.window!.rootViewController = startVC
 
         }
@@ -165,7 +165,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             // Display a dialog to confirm the delete action
             
             
-            // Display a contextual dialog with the number of the memes to be deleted to confirm the delete action
+            // Display a dynamic dialog with the number of the memes to be deleted to confirm the delete action
             
             
             var memeString = "ALL Memes?!"
@@ -188,7 +188,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     
         
             var dialogTitle: String = "Delete Memes"
-            var dialogMessage: String = "Are your sure, you want to delete \(memeString)?"
+            var dialogMessage: String = "Are your sure that you want to delete \(memeString)"
             
             var dialog: UIAlertController = UIAlertController(title: dialogTitle, message: dialogMessage, preferredStyle: UIAlertControllerStyle.ActionSheet)
             
@@ -218,7 +218,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if self.sentMemesTableView.indexPathsForSelectedRows() != nil {
             
-            memesToDelete = self.sentMemesTableView.indexPathsForSelectedRows()! as [NSIndexPath]
+            memesToDelete = self.sentMemesTableView.indexPathsForSelectedRows()! as! [NSIndexPath]
         
             for (var idx:Int = memesToDelete.count - 1; idx >= 0; idx--) {
                 
@@ -266,6 +266,8 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.sentMemesTableView.setEditing(false, animated: true)
         self.hideCancelMultiselection()
+        
+        self.updateButtonsToMatchTableState()
         
     }
     
