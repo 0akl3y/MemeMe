@@ -301,9 +301,10 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         
         if self.sentMemesTableView.editing{
-        
-        
-            // indexPathsForSelectedRows returns nil if no row is selected, make sure to not unwrap a nil
+            
+            self.navigationItem.title = "Select Memes to remove"
+            
+            // indexPathsForSelectedRows inconveniently returns nil if no row is selected, make sure to not unwrap a nil
             
             if var selectedRows: Array  = self.sentMemesTableView.indexPathsForSelectedRows() {
 
@@ -330,14 +331,10 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         else {
             
             self.editButton!.title = "Edit"
+            self.navigationItem.title = "Select Memes"
             
         }
-        
-        
-        
     
     }
-
-
 
 }

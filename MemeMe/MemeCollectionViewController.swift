@@ -206,6 +206,7 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
             self.sentMemesCollectionView.allowsMultipleSelection = true
             self.displayCancelMultiselection()
             
+            
             self.updateButtonsToMatchTableState()
         
         }
@@ -247,7 +248,6 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
             
         }
         
-    
     }
 
 
@@ -298,12 +298,13 @@ func updateButtonsToMatchTableState() {
     if (self.editMode) {
         
             self.editButton!.title = allOrNoRowsSelected  ?  "Delete All" : "Delete(\(selectedRows))"
+            self.navigationItem.title = "Select Memes to remove"
     }
     
     else {
         
             self.editButton!.title = "Edit"
-            //self.editButton!.enabled = true
+            self.navigationItem.title = "Sent Memes"
         
         }
     
