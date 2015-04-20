@@ -146,6 +146,9 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     
     func removeMemes(){
         
+        // reset selected image idx to avoid index out of bounds crash when all memes are deleted and the view goes back to the meme editor
+        self.selectedImageIdx = nil
+        
         //iterate through all selected memes and delete them in reverse order to avoid
         // index out of bounds errors
         
@@ -298,7 +301,7 @@ func updateButtonsToMatchTableState() {
     if (self.editMode) {
         
             self.editButton!.title = allOrNoRowsSelected  ?  "Delete All" : "Delete(\(selectedRows))"
-            self.navigationItem.title = "Select Memes to remove"
+            self.navigationItem.title = "Select Memes"
     }
     
     else {

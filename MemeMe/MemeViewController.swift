@@ -217,6 +217,10 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // index out of bounds errors
         
         
+        // reset selected image idx to avoid index out of bounds crash when all memes are deleted and the view goes back to the meme editor
+        
+        self.selectedImageIdx = nil
+        
         var memesToDelete = [NSIndexPath]()
 
         
@@ -302,7 +306,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if self.sentMemesTableView.editing{
             
-            self.navigationItem.title = "Select Memes to remove"
+            self.navigationItem.title = "Select Memes"
             
             // indexPathsForSelectedRows inconveniently returns nil if no row is selected, make sure to not unwrap a nil
             
@@ -331,7 +335,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         else {
             
             self.editButton!.title = "Edit"
-            self.navigationItem.title = "Select Memes"
+            self.navigationItem.title = "Sent Memes"
             
         }
     

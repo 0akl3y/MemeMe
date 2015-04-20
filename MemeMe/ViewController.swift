@@ -141,8 +141,12 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         let activityView = UIActivityViewController(activityItems: memeActivityObject, applicationActivities: nil)
         
         
-        activityView.completionWithItemsHandler = {activityType, completed, returnedItems, activityError in self.save()
-        self.clearView()}
+        activityView.completionWithItemsHandler = {activityType, completed, returnedItems, activityError in
+        
+            if (completed){
+                self.save()
+                self.clearView()}
+        }
         
         
         self.presentViewController(activityView, animated: true, completion: nil)
