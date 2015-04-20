@@ -168,24 +168,25 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             // Display a contextual dialog with the number of the memes to be deleted to confirm the delete action
             
             
-            var memeString = "the selected Meme"
+            var memeString = "ALL Memes?!"
             
             
             if var numberOfSelectedMemes = self.sentMemesTableView.indexPathsForSelectedRows()?.count {
                 
-                memeString = "\(numberOfSelectedMemes) Memes"
                 
-                if (self.sharedModel.memes.count == numberOfSelectedMemes){
+                if(numberOfSelectedMemes == 1){
                 
-                    memeString = "ALL Memes"}
+                    memeString = "the selected Meme?"
                 }
-
                 
-            else {
+                else if (self.sharedModel.memes.count != numberOfSelectedMemes){
                 
-                memeString = "ALL Memes!!"
+                    memeString = "\(numberOfSelectedMemes) Memes?"
+                    
+                }
             }
-            
+                    
+        
             var dialogTitle: String = "Delete Memes"
             var dialogMessage: String = "Are your sure, you want to delete \(memeString)?"
             
@@ -201,7 +202,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             presentViewController(dialog, animated: true, completion: nil)
         
         }
-    
+     
     }
     
     
