@@ -29,7 +29,7 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     var sentMemesCollectionView: UICollectionView!
     var editMode: Bool = false
     
-    var allCells = [NSIndexPath]()
+    
     
     
     override func viewDidLoad() {
@@ -56,6 +56,7 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         self.navigationItem.leftBarButtonItem = self.editButton
         var rightItems = [self.cancelButton!,self.addButton!]
         self.navigationItem.rightBarButtonItems = rightItems
+        
 
     }
     
@@ -70,7 +71,6 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        self.allCells.append(indexPath)
         
         let item = collectionView.dequeueReusableCellWithReuseIdentifier("collectionCell", forIndexPath: indexPath) as UICollectionViewCell
         
@@ -168,11 +168,12 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         // if deleteAll is tapped, but no row was selected all should be removed
         else {
             
-            memesToDelete = self.allCells
-            
-            for (var idx:Int = memesToDelete.count - 1; idx >= 0; idx--) {
+            for (var idx:Int = self.sharedModel.memes.count - 1; idx >= 0; idx--) {
                 
-                self.sharedModel.memes.removeAtIndex(memesToDelete[idx].row)
+                var currentIdxPath: NSIndexPath = NSIndexPath(indexes: [0, idx], length: 2)
+                memesToDelete.append(currentIdxPath)
+                
+                self.sharedModel.memes.removeAtIndex(idx)
                 
             }
         
@@ -183,8 +184,17 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         self.sentMemesCollectionView.deleteItemsAtIndexPaths(memesToDelete)        
         self.updateButtonsToMatchTableState()
         
+        // if
+        
         if(self.sharedModel.memes.count == 0){
+            
+            // If all memes were deleted the app should return to the meme editor
+            
+            self.editMode = false
+            self.sentMemesCollectionView.allowsMultipleSelection = false
+            
             self.dismissViewControllerAnimated(false, completion: nil)
+
         }
         
     }
@@ -214,6 +224,7 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
             var dialog: UIAlertController = UIAlertController(title: dialogTitle, message: dialogMessage, preferredStyle: UIAlertControllerStyle.ActionSheet)
             
             var confirmDelete: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Destructive, handler: { UIAlertAction in self.removeMemes(); })
+
             
             var cancelDelete: UIAlertAction = UIAlertAction(title: "NO", style: UIAlertActionStyle.Cancel, handler: nil)
             

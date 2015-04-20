@@ -29,7 +29,6 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var selectedImageIdx: Int?
     var sentMemesTableView: UITableView!
     
-    var allRows = [NSIndexPath]()
     
     override func viewWillAppear(animated: Bool) {
         
@@ -49,6 +48,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var rightItems = [self.cancelButton!,self.addButton!]
         
         self.navigationItem.rightBarButtonItems = rightItems
+        
 
     }
     
@@ -68,7 +68,6 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         // Store all index paths to easily remove all
-        self.allRows.append(indexPath)
         
         let cell = tableView.dequeueReusableCellWithIdentifier("customCell", forIndexPath: indexPath) as UITableViewCell
         
@@ -213,25 +212,29 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         else {
             
             
-            memesToDelete = self.allRows
-            
-            for (var idx:Int = memesToDelete.count - 1; idx >= 0; idx--) {
+            for (var idx:Int = self.sharedModel.memes.count - 1; idx >= 0; idx--) {
                 
-                self.sharedModel.memes.removeAtIndex(memesToDelete[idx].row)
+                var currentIdxPath: NSIndexPath = NSIndexPath(indexes: [0, idx], length: 2)
+                memesToDelete.append(currentIdxPath)
+                
+                self.sharedModel.memes.removeAtIndex(idx)
                 
             }
             
-        
         }
         
         self.sentMemesTableView.deleteRowsAtIndexPaths(memesToDelete, withRowAnimation: UITableViewRowAnimation.Fade)
 
         self.updateButtonsToMatchTableState()
         
+        // If all memes were deleted the app should return to the meme editor
+        
         if(self.sharedModel.memes.count == 0){
+            
+            self.sentMemesTableView.setEditing(false, animated: true)
             self.dismissViewControllerAnimated(false, completion: nil)
+        
         }
-
     
     }
     
@@ -263,8 +266,6 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     }
-    
-    
 
     
     func updateButtonsToMatchTableState() {
