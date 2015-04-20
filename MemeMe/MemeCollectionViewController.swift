@@ -124,9 +124,6 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         }
     }
     
-    
-    
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "detailFromCollection"){
             
@@ -215,11 +212,26 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         
         else {
             
-            // Display a dialog to confirm the delete action
             
+            // Display a contextual dialog with the number of the memes to be deleted to confirm the delete action
+            
+            var numberOfSelectedMemes = self.sentMemesCollectionView.indexPathsForSelectedItems().count
+            var memeString = "\(numberOfSelectedMemes) Memes"
+            
+            
+            if(numberOfSelectedMemes == 1){
+                
+                memeString = "the selected Meme"
+                
+            }
+                
+            else if (self.sharedModel.memes.count == numberOfSelectedMemes ||  numberOfSelectedMemes == 0) {
+                
+                var memeString = "ALL Memes!!"
+            }
             
             var dialogTitle: String = "Delete Memes"
-            var dialogMessage: String = "Are your sure, you want to delete the selected Meme(s)?"
+            var dialogMessage: String = "Are your sure, you want to delete \(memeString)?"
             
             var dialog: UIAlertController = UIAlertController(title: dialogTitle, message: dialogMessage, preferredStyle: UIAlertControllerStyle.ActionSheet)
             
@@ -298,15 +310,7 @@ func updateButtonsToMatchTableState() {
         
         }
     
-        
-        
-    
-    
     }
-
-
-    
-    
     
 
 }
