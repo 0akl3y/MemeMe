@@ -119,7 +119,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     
 
     @IBAction func photoFromCamera(sender: UIBarButtonItem) {
-        self.pickImageFromSource(UIImagePickerControllerSourceType.PhotoLibrary)
+        self.pickImageFromSource(UIImagePickerControllerSourceType.Camera)
     }
     
     
@@ -236,7 +236,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         //frame should not move up, when the top text is edited
         
         if(bottomText.isFirstResponder()){
-            self.view.frame.origin.y -= CGFloat(self.getKeyboardHeight(notification))
+            self.view.viewWithTag(1)!.frame.origin.y -= CGFloat(self.getKeyboardHeight(notification))
         }
         
     }
@@ -245,7 +245,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     func keyboardWillHide(notification: NSNotification) {
         
         if(bottomText.isFirstResponder()){
-            self.view.frame.origin.y += CGFloat(self.getKeyboardHeight(notification))
+            self.view.viewWithTag(1)!.frame.origin.y = 0
         }
         
     }
@@ -262,7 +262,9 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        return true
+        
+        self.view.endEditing(false)
+        return false
     }
     
     
