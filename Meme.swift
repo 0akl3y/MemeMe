@@ -9,13 +9,26 @@
 import UIKit
 import CoreData
 
+@objc(Meme)
+
 class Meme: NSManagedObject {
     
     @NSManaged var topText: String!
     @NSManaged var bottomText: String!
-    @NSManaged var originalImage: UIImage!
-    @NSManaged var memedImage: UIImage!
     
+    @NSManaged var originalImageData: NSData!
+    @NSManaged var memedImageData: NSData!
+    
+    var originalImage: UIImage {
+        
+        return UIImage(data: self.originalImageData)!
+    
+    }
+    var memedImage: UIImage{
+        
+        return UIImage(data: self.memedImageData)!
+    
+    }
     
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
@@ -30,8 +43,8 @@ class Meme: NSManagedObject {
         
         self.topText = text
         self.bottomText = bottomText
-        self.originalImage = originalImage
-        self.memedImage = memedImage
+        self.originalImageData = UIImagePNGRepresentation(originalImage)
+        self.memedImageData = UIImagePNGRepresentation(memedImage)
         
     }
    

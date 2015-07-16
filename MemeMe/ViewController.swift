@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -18,6 +19,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         }
         
     }
+    
    
     @IBOutlet weak var memeEditorImage: UIImageView!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
@@ -31,12 +33,16 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+                
         let memeTextAttributes: Dictionary = [NSStrokeColorAttributeName:UIColor.blackColor(),
             NSForegroundColorAttributeName:UIColor.whiteColor(),
             NSFontAttributeName:UIFont(name:"HelveticaNeue-CondensedBlack", size:35)!,
             NSStrokeWidthAttributeName:Float(-4.0)]
+        
+        let fetchRequest = NSFetchRequest(entityName: "Meme")
+        var error:NSError? = nil
+        
+        self.sharedModel.memes = CoreDataStack.sharedObject().managedObjectContext?.executeFetchRequest(fetchRequest, error: &error) as! [Meme]
         
         
         self.topText.delegate = self
@@ -160,7 +166,7 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     
     func save(){
         
-        var newMeme = Meme(text: self.topText.text, bottomText: self.bottomText.text, originalImage: self.memeEditorImage!.image!, memedImage: self.memedImage!)
+        var newMeme = Meme(text: self.topText.text, bottomText: self.bottomText.text, originalImage: self.memeEditorImage!.image!, memedImage: self.memedImage!, context: CoreDataStack.sharedObject().managedObjectContext!)
         
         // Check if an existing meme is edited
         
@@ -177,6 +183,8 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
             self.sharedModel.memes[currentIdx] = newMeme
         
         }
+        
+        CoreDataStack.sharedObject().saveContext()
         
         self.performSegueWithIdentifier("showSentMemes", sender: self)
         

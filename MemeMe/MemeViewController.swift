@@ -9,7 +9,6 @@
 import UIKit
 
 
-
 class MemeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var sharedModel: AppDelegate {
@@ -20,8 +19,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }        
         
     }
-    
-    
+        
     var addButton: UIBarButtonItem?
     var cancelButton: UIBarButtonItem?
     var editButton: UIBarButtonItem?
@@ -71,7 +69,9 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         let cell = tableView.dequeueReusableCellWithIdentifier("customCell", forIndexPath: indexPath) as! UITableViewCell
         
-        var content: Meme = self.sharedModel.memes[indexPath.row] as Meme
+        var memeList: [Meme] = self.sharedModel.memes as [Meme]
+        
+        var content: Meme = memeList[indexPath.row]
         
         var customTextLabel:UILabel = cell.contentView.viewWithTag(101) as! UILabel
         customTextLabel.text = content.topText + " " + content.bottomText
@@ -133,10 +133,16 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         else {
             
-            var startVC = self.storyboard!.instantiateInitialViewController() as! MemeViewController
+            
+            /*
+            
+            var startVC = self.storyboard!.instantiateInitialViewController() as! UIViewController
             
             var object = UIApplication.sharedApplication().delegate as! AppDelegate
             object.window!.rootViewController = startVC
+            */
+            
+            self.navigationController?.popToRootViewControllerAnimated(true)
 
         }
         

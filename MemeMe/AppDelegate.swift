@@ -12,7 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var memes = [Meme]()
+    var memes: [Meme] = [Meme]()
     
     var currentlySelectedIdx: Int?
 
@@ -39,7 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         // Fulfill requirement to display the Sent Memes View, if there are views. Remove this after review
-
+        
+        /*
         if (self.memes.count > 0){
             
         var storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -47,7 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             window!.rootViewController = initialVC
         
-        }        
+        } 
+        */
         
     }
 
