@@ -7,17 +7,27 @@
 //
 
 import UIKit
+import CoreData
 
-class Meme: NSObject {
+class Meme: NSManagedObject {
     
-    var topText: String!
-    var bottomText: String!
-    var originalImage: UIImage!
-    var memedImage: UIImage!
+    @NSManaged var topText: String!
+    @NSManaged var bottomText: String!
+    @NSManaged var originalImage: UIImage!
+    @NSManaged var memedImage: UIImage!
     
-    init(text:String, bottomText:String, originalImage:UIImage, memedImage:UIImage) {
+    
+    
+    override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
+    }
+    
+    init(text:String, bottomText:String, originalImage:UIImage, memedImage:UIImage, context:NSManagedObjectContext) {
+        
+        var memeEntityDescription = NSEntityDescription.entityForName("Meme", inManagedObjectContext: context)
 
-        super.init()
+        super.init(entity:memeEntityDescription!, insertIntoManagedObjectContext: context)
+        
         self.topText = text
         self.bottomText = bottomText
         self.originalImage = originalImage
