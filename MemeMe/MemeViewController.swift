@@ -161,7 +161,6 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.sentMemesTableView.setEditing(true, animated: true)
             self.updateButtonsToMatchTableState()
             self.displayCancelMultiselection()
-
             
         }
             
@@ -169,7 +168,6 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         else {
             
             // Display a dialog to confirm the delete action
-            
             
             // Display a dynamic dialog with the number of the memes to be deleted to confirm the delete action
             
@@ -215,8 +213,6 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
      
     }
     
-    
-    
     func removeMemes(){
         
         //iterate through all selected memes and delete them in reverse order to avoid
@@ -232,10 +228,13 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if self.sentMemesTableView.indexPathsForSelectedRows() != nil {
             
-            memesToDelete = self.sentMemesTableView.indexPathsForSelectedRows()! as! [NSIndexPath]
+            memesToDelete = self.sentMemesTableView.indexPathsForSelectedRows()!.sorted { (idxPathA, idxPathB) -> Bool in
+                idxPathA.row < idxPathB.row
+                } as! [NSIndexPath]
         
             for (var idx:Int = memesToDelete.count - 1; idx >= 0; idx--) {
                 
+                CoreDataStack.sharedObject().managedObjectContext?.deleteObject(self.sharedModel.memes[idx])
                 self.sharedModel.memes.removeAtIndex(memesToDelete[idx].row)
                 
             }
@@ -253,6 +252,7 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 var currentIdxPath: NSIndexPath = NSIndexPath(indexes: [0, idx], length: 2)
                 memesToDelete.append(currentIdxPath)
                 
+                CoreDataStack.sharedObject().managedObjectContext?.deleteObject(self.sharedModel.memes[idx])
                 self.sharedModel.memes.removeAtIndex(idx)
                 
             }
@@ -271,6 +271,8 @@ class MemeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.dismissViewControllerAnimated(false, completion: nil)
         
         }
+        
+        CoreDataStack.sharedObject().saveContext()
     
     }
     

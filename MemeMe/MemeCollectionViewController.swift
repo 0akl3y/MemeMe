@@ -30,15 +30,11 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
     var sentMemesCollectionView: UICollectionView!
     var editMode: Bool = false
     
-    
-    
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
 
     }
-    
     
     override func viewWillAppear(animated: Bool) {
         
@@ -46,9 +42,7 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         self.sentMemesCollectionView = self.view.viewWithTag(2) as! UICollectionView
         self.sentMemesCollectionView.reloadData()
         
-        
-        //Add navbuttons
-        
+        //Add navbuttons        
         
         self.addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action:"addMeme:")
         self.editButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Plain, target: self, action:"editMemes:")
@@ -153,16 +147,18 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         //iterate through all selected memes and delete them in reverse order to avoid
         // index out of bounds errors
         
-        var memesToDelete  = self.sentMemesCollectionView.indexPathsForSelectedItems()
+        var memesToDelete  = self.sentMemesCollectionView.indexPathsForSelectedItems().sorted { (idxPathA, idxPathB) -> Bool in
+                idxPathA.row < idxPathB.row
+            }
         
         if(memesToDelete.count > 0) {
             
             for (var idx:Int = memesToDelete.count - 1; idx >= 0; idx--) {
                 
+                CoreDataStack.sharedObject().managedObjectContext?.deleteObject(self.sharedModel.memes[idx])
                 self.sharedModel.memes.removeAtIndex(memesToDelete[idx].row)
                 
             }
-        
         }
         
             
@@ -174,13 +170,11 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
                 var currentIdxPath: NSIndexPath = NSIndexPath(indexes: [0, idx], length: 2)
                 memesToDelete.append(currentIdxPath)
                 
+                CoreDataStack.sharedObject().managedObjectContext?.deleteObject(self.sharedModel.memes[idx])
                 self.sharedModel.memes.removeAtIndex(idx)
                 
             }
-        
         }
-        
-        
         
         self.sentMemesCollectionView.deleteItemsAtIndexPaths(memesToDelete)        
         self.updateButtonsToMatchTableState()
@@ -197,6 +191,8 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
             self.dismissViewControllerAnimated(false, completion: nil)
 
         }
+        
+        CoreDataStack.sharedObject().saveContext()
         
     }
     
