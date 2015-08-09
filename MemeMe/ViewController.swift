@@ -19,9 +19,8 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         }
         
     }
-    
    
-    @IBOutlet weak var memeEditorImage: UIImageView!
+    @IBOutlet var memeEditorImage: UIImageView!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     @IBOutlet weak var activityButton: UIBarButtonItem!
     
@@ -52,15 +51,16 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         self.bottomText.delegate = self
         self.bottomText.defaultTextAttributes = memeTextAttributes
-        self.bottomText.textAlignment = NSTextAlignment.Center        
-
-
+        self.bottomText.textAlignment = NSTextAlignment.Center
+        
     }
+    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         
         //Check if there is a meme to be edited and display this meme
+        self.subscribeToKeyboardNotification()
         
         if var memeToEditIdx = self.sharedModel.currentlySelectedIdx {
 
@@ -81,19 +81,15 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         //Disable Camera button if no camera is available
         
         self.cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
-        
         self.activityButton.enabled = self.memeEditorImage?.image != nil
-        self.subscribeToKeyboardNotification()
         
     }
-    
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(true)
         self.unsubscribeToKeyboardNotifiaction()
         
     }
-
     
     func pickImageFromSource(imgSourceType: UIImagePickerControllerSourceType){
         
@@ -116,23 +112,19 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         }
     }
     
-    
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         
         self.dismissViewControllerAnimated(true, completion:nil)
         
     }
-    
 
     @IBAction func photoFromCamera(sender: UIBarButtonItem) {
         self.pickImageFromSource(UIImagePickerControllerSourceType.Camera)
     }
     
-    
     @IBAction func photoFromAlbum(sender: UIBarButtonItem) {
         self.pickImageFromSource(UIImagePickerControllerSourceType.SavedPhotosAlbum)
     }
-    
     
     @IBAction func openActivityCenter(sender: UIBarButtonItem) {
         
@@ -141,11 +133,9 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
         let memeActivityObject = [memedImage!]
         
-        
         //Initiate UIActivityView Controller
         
         let activityView = UIActivityViewController(activityItems: memeActivityObject, applicationActivities: nil)
-        
         
         activityView.completionWithItemsHandler = {activityType, completed, returnedItems, activityError in
         
@@ -153,7 +143,6 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
                 self.save()
                 self.clearView()}
         }
-        
         
         self.presentViewController(activityView, animated: true, completion: nil)
             
@@ -192,17 +181,13 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
     
     func cancel(){
         
-
-        
         self.clearView()
-        
         
         // Reset currently selected index
         if (sharedModel.currentlySelectedIdx != nil){
             
             self.sharedModel.currentlySelectedIdx = nil
         }
-
         
         // display sent memes if there are already memes stored
         if (sharedModel.memes.count > 0){
@@ -218,14 +203,12 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
     }
     
-    
     func clearView() {
         
         self.memeEditorImage!.image = nil
         self.activityButton.enabled = false
         self.bottomText.text = "BOTTOM"
         self.topText.text = "TOP"
-    
     
     }
     
@@ -237,27 +220,23 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         
     }
     
-    
     func keyboardWillShow(notification: NSNotification) {
-        
-
         //frame should not move up, when the top text is edited
         
         if(bottomText.isFirstResponder()){
-            self.view.viewWithTag(1)!.frame.origin.y -= CGFloat(self.getKeyboardHeight(notification))
+            println(self.memeEditorImage.frame.origin.y)
+            self.view.window!.frame.origin.y = -CGFloat(self.getKeyboardHeight(notification))
+            println(self.memeEditorImage!.frame.origin.y)
         }
         
     }
-    
     
     func keyboardWillHide(notification: NSNotification) {
         
         if(bottomText.isFirstResponder()){
-            self.view.viewWithTag(1)!.frame.origin.y = 0
+            self.view.window!.frame.origin.y = 0
         }
-        
     }
-    
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat{
         
@@ -268,13 +247,11 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
 
     }
     
-    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
         self.view.endEditing(false)
         return false
     }
-    
     
     func textFieldDidEndEditing(textField: UITextField) {
         textField.resignFirstResponder()
@@ -287,6 +264,4 @@ class ViewController: UIViewController, UITextFieldDelegate,UIImagePickerControl
         NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillHideNotification, object:nil)
         
     }
-    
 }
-

@@ -42,7 +42,7 @@ class MemeCollectionViewController: UIViewController, UICollectionViewDataSource
         self.sentMemesCollectionView = self.view.viewWithTag(2) as! UICollectionView
         self.sentMemesCollectionView.reloadData()
         
-        //Add navbuttons        
+        //Add navbuttons
         
         self.addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action:"addMeme:")
         self.editButton = UIBarButtonItem(title: "Edit", style: UIBarButtonItemStyle.Plain, target: self, action:"editMemes:")
